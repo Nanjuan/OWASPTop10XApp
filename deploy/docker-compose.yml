@@ -2,9 +2,11 @@ version: '3.8'
 services:
   webapp:
     build:
-      context: .
+      context: ..
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     volumes:
-      - .:/usr/src/app
-    command: node OT10XApp/server/app.js
+      - ../OT10XApp:/usr/src/app
+      - /usr/src/app/node_modules  # preserve container's node_modules
+    command: npm run dev

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Identification and Authentication Failures</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Identification and Authentication Failures</h1>
+  <button onclick="window.location.href='/'">Back to Home</button>
+  <p>This page demonstrates weak authentication mechanisms by using insecure, plaintext credential checks.</p>
+  
+  <form id="loginForm">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+    <br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+    <br>
+    <button type="submit">Login</button>
+  </form>
+  
+  <pre id="response"></pre>
+  
+  <script src="./script.js"></script>
+</body>
+</html>

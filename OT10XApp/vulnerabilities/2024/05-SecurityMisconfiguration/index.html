@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Security Misconfiguration</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Security Misconfiguration</h1>
+  <button onclick="window.location.href='/'">Back to Home</button>
+  <p>
+    This demonstration simulates a security misconfiguration by exposing sensitive files through a public directory.
+    In a secure environment, such files would not be accessible.
+  </p>
+  <p>
+    Click the button below to fetch the content of a sensitive file (<code>secret.txt</code>) from the misconfigured <code>/files</code> directory.
+  </p>
+  <button id="fetchSensitive">View Sensitive File</button>
+  <pre id="output"></pre>
+  
+  <h2>Public Information</h2>
+  <p>This content is intended to be public and is automatically loaded on page load.</p>
+  <pre id="publicOutput"></pre>
+  
+  <script src="./script.js"></script>
+</body>
+</html>

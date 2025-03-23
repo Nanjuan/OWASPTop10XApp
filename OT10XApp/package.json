@@ -1,0 +1,19 @@
+{
+    "name": "owasp-top10x-app",
+    "version": "1.0.0",
+    "description": "OWASP Top 10 Web Application Demo",
+    "main": "server/app.js",
+    "scripts": {
+      "start": "node server/app.js",
+      "dev": "nodemon server/app.js"
+    },
+    "dependencies": {
+      "express": "^4.18.2",
+      "axios": "^1.2.0",
+      "sqlite3": "^5.0.0"
+    },
+    "devDependencies": {
+      "nodemon": "^2.0.20"
+    }
+  }
+  

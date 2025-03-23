@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Injection Demonstration</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1 title="%' OR '1'='1' -- ">SQL Injection Demonstration</h1>
+  <button onclick="window.location.href='/'">Back to Home</button>
+  <p>This page demonstrates a SQL Injection vulnerability by accepting unsanitized input to query a database.</p>
+  
+  <form id="searchForm">
+    <label for="query">Enter search term:</label>
+    <input type="text" id="query" name="query" placeholder="e.g., Alice" required>
+    <button type="submit">Search</button>
+  </form>
+  
+  <pre id="results"></pre>
+  
+  <script src="./script.js"></script>
+</body>
+</html>

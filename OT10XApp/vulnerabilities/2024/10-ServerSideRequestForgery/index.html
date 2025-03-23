@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Server-Side Request Forgery (SSRF) Demo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Server-Side Request Forgery (SSRF) Demo</h1>
+  <button onclick="window.location.href='/'">Back to Home</button>
+  <p>
+    This demonstration shows an SSRF vulnerability. The fetch data field below is pre-filled with a URL (e.g., to the payload endpoint). 
+    An attacker (or tester) could change the URL to target internal resources.
+  </p>
+  <form id="ssrfForm">
+    <label for="url">URL:</label>
+    <input type="text" id="url" name="url" required>
+    <button type="submit">Fetch Data</button>
+  </form>
+  
+  <!-- Container for the response. Using innerHTML to render HTML payloads. -->
+  <div id="response"></div>
+  
+  <script src="./script.js"></script>
+</body>
+</html>

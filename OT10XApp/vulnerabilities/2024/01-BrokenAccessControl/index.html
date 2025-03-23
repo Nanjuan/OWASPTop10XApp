@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Broken Access Control</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Broken Access Control</h1>
+  <button onclick="window.location.href='/'">Back to Home</button>
+  <p>This page demonstrates Broken Access Control by revealing restricted admin features when unauthorized access is simulated.</p>
+  
+  <div class="regular-user">
+    <h2>Regular User Panel</h2>
+    <p>Welcome, user. You have limited access.</p>
+  </div>
+  
+  <div class="admin-panel hidden">
+    <h2>Admin Panel</h2>
+    <p>This is restricted admin data that should not be accessible to a regular user.</p>
+  </div>
+  
+  <button id="bypassBtn">Simulate Unauthorized Access</button>
+  
+  <script src="script.js"></script>
+</body>
+</html>

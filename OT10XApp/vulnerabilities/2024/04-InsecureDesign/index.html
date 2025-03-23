@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insecure Design Vulnerability</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1 title="document.getElementById('adminCredentials')">Insecure Design Vulnerability</h1>
+  <button onclick="window.location.href='/'">Back to Home</button>
+  <p>This page demonstrates insecure design by exposing sensitive information on the client-side.</p>
+  
+  <div class="info">
+    <p>Public Message: Welcome to our secure application!</p>
+    <p>Admin Credentials: <span id="adminCredentials"></span></p>
+  </div>
+  
+  <script src="./script.js"></script>
+</body>
+</html>
