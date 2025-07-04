@@ -3,25 +3,383 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Server-Side Request Forgery (SSRF) Demo</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>A10:2021 - Server-Side Request Forgery | OWASP Top 10 Learning</title>
+  <link rel="stylesheet" href="../../../styles/styles.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <h1>Server-Side Request Forgery (SSRF) Demo</h1>
-  <button onclick="window.location.href='/'">Back to Home</button>
-  <p>
-    This demonstration shows an SSRF vulnerability. The fetch data field below is pre-filled with a URL (e.g., to the payload endpoint). 
-    An attacker (or tester) could change the URL to target internal resources.
-  </p>
-  <form id="ssrfForm">
-    <label for="url">URL:</label>
-    <input type="text" id="url" name="url" required>
-    <button type="submit">Fetch Data</button>
-  </form>
+  <header class="header">
+    <div class="container">
+      <h1><i class="fas fa-globe"></i> A10:2021 - Server-Side Request Forgery (SSRF)</h1>
+      <p class="subtitle">Learn about SSRF attacks, internal network access, and request forgery</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <nav class="nav-back">
+      <a href="../../../index.html">
+        <i class="fas fa-arrow-left"></i> Back to OWASP Top 10
+      </a>
+    </nav>
+
+    <!-- Learning Overview -->
+    <section class="learning-overview">
+      <div class="overview-card">
+        <h2><i class="fas fa-info-circle"></i> What is Server-Side Request Forgery (SSRF)?</h2>
+        <p>Server-Side Request Forgery occurs when a web application fetches a remote resource without validating the user-supplied URL. Attackers can manipulate the application to send requests to unintended destinations, potentially accessing internal services or external systems.</p>
+        <div class="key-points">
+          <h3>Key Concepts:</h3>
+          <ul>
+            <li><strong>URL Manipulation:</strong> Attackers control the destination of server requests</li>
+            <li><strong>Internal Network Access:</strong> Access to internal services and resources</li>
+            <li><strong>Cloud Metadata Exposure:</strong> Access to cloud provider metadata services</li>
+            <li><strong>Request Forgery:</strong> Server makes requests on behalf of the attacker</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Attack Scenarios -->
+    <section class="attack-scenarios">
+      <h2><i class="fas fa-bug"></i> Attack Scenarios</h2>
+      <div class="scenario-grid">
+        <!-- Scenario 1: Internal Network Scanning -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-network-wired"></i> Scenario 1: Internal Network Scanning</h3>
+            <span class="difficulty beginner">Beginner</span>
+          </div>
+          <p>Attackers use SSRF to scan internal networks and discover internal services.</p>
+          <div class="scenario-content">
+            <h4>Vulnerable Component:</h4>
+            <code>Image proxy or URL fetcher without validation</code>
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Submit internal IP addresses as URLs</li>
+              <li>Server fetches content from internal services</li>
+              <li>Attacker discovers internal network structure</li>
+            </ol>
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <form id="networkScanForm">
+                <input type="text" id="networkScanUrl" placeholder="Enter URL to fetch (e.g., http://192.168.1.1)">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-search"></i> Fetch URL
+                </button>
+              </form>
+              <div id="networkScanResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario 2: Cloud Metadata Access -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-cloud"></i> Scenario 2: Cloud Metadata Access</h3>
+            <span class="difficulty intermediate">Intermediate</span>
+          </div>
+          <p>Attackers access cloud provider metadata services to steal credentials and configuration.</p>
+          <div class="scenario-content">
+            <h4>Vulnerable Component:</h4>
+            <code>URL fetcher accessing cloud metadata endpoints</code>
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Submit cloud metadata service URLs</li>
+              <li>Server fetches sensitive metadata</li>
+              <li>Attacker obtains credentials and configuration</li>
+            </ol>
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <form id="metadataAccessForm">
+                <select id="metadataEndpoint" class="form-control">
+                  <option value="http://169.254.169.254/latest/meta-data/">AWS EC2 Metadata</option>
+                  <option value="http://169.254.169.254/metadata/v1/">DigitalOcean Metadata</option>
+                  <option value="http://metadata.google.internal/computeMetadata/v1/">Google Cloud Metadata</option>
+                </select>
+                <button type="submit" class="btn btn-warning">
+                  <i class="fas fa-cloud-download-alt"></i> Access Metadata
+                </button>
+              </form>
+              <div id="metadataAccessResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario 3: Internal Service Exploitation -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-server"></i> Scenario 3: Internal Service Exploitation</h3>
+            <span class="difficulty advanced">Advanced</span>
+          </div>
+          <p>Attackers use SSRF to interact with internal services and potentially exploit them.</p>
+          <div class="scenario-content">
+            <h4>Vulnerable Component:</h4>
+            <code>Webhook or callback URL without validation</code>
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Submit internal service URLs as webhook endpoints</li>
+              <li>Server sends requests to internal services</li>
+              <li>Attacker interacts with or exploits internal services</li>
+            </ol>
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <form id="internalServiceForm">
+                <input type="text" id="internalServiceUrl" placeholder="Internal service URL (e.g., http://internal-api:8080)">
+                <textarea id="servicePayload" placeholder="Payload to send to internal service"></textarea>
+                <button type="submit" class="btn btn-danger">
+                  <i class="fas fa-rocket"></i> Send to Internal Service
+                </button>
+              </form>
+              <div id="internalServiceResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prevention Strategies -->
+    <section class="prevention">
+      <h2><i class="fas fa-shield-alt"></i> Prevention Strategies</h2>
+      <div class="prevention-grid">
+        <div class="prevention-card">
+          <h3><i class="fas fa-filter"></i> Input Validation & Whitelisting</h3>
+          <ul>
+            <li>Validate and whitelist allowed URLs and domains</li>
+            <li>Block access to private IP ranges and localhost</li>
+            <li>Use allowlists instead of blocklists</li>
+            <li>Validate URL schemes (only HTTP/HTTPS)</li>
+          </ul>
+        </div>
+        <div class="prevention-card">
+          <h3><i class="fas fa-network-wired"></i> Network Segmentation</h3>
+          <ul>
+            <li>Implement proper network segmentation</li>
+            <li>Use firewalls to restrict internal access</li>
+            <li>Deploy services in isolated networks</li>
+            <li>Monitor and log all outbound requests</li>
+          </ul>
+        </div>
+        <div class="prevention-card">
+          <h3><i class="fas fa-cogs"></i> Service Configuration</h3>
+          <ul>
+            <li>Disable cloud metadata services when not needed</li>
+            <li>Use service mesh for internal communication</li>
+            <li>Implement proper authentication for internal services</li>
+            <li>Use outbound proxies with URL filtering</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Code Examples -->
+    <section class="code-examples">
+      <h2><i class="fas fa-code"></i> Code Examples</h2>
+      <div class="code-tabs">
+        <div class="tab-buttons">
+          <button class="tab-btn active" data-tab="vulnerable">Vulnerable Code</button>
+          <button class="tab-btn" data-tab="secure">Secure Code</button>
+        </div>
+        <div class="tab-content">
+          <div id="vulnerable" class="tab-pane active">
+            <h3>Vulnerable Implementation</h3>
+            <pre><code>// Vulnerable: No URL validation
+app.get('/fetch', async (req, res) => {
+  const url = req.query.url;
+  try {
+    const response = await fetch(url); // No validation!
+    const data = await response.text();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send('Error fetching URL');
+  }
+});
+
+// Vulnerable: Image proxy without validation
+app.get('/proxy-image', async (req, res) => {
+  const imageUrl = req.query.src;
+  const response = await fetch(imageUrl); // No validation!
+  const buffer = await response.buffer();
+  res.set('Content-Type', 'image/jpeg');
+  res.send(buffer);
+});
+
+// Vulnerable: Webhook without validation
+app.post('/webhook', (req, res) => {
+  const { callback_url } = req.body;
+  fetch(callback_url); // No validation!
+  res.send('Webhook sent');
+});
+</code></pre>
+          </div>
+          <div id="secure" class="tab-pane">
+            <h3>Secure Implementation</h3>
+            <pre><code>// Secure: URL validation and whitelisting
+const allowedDomains = ['api.example.com', 'cdn.example.com'];
+const privateIPRanges = [
+  /^10\./, /^172\.(1[6-9]|2[0-9]|3[0-1])\./, /^192\.168\./,
+  /^127\./, /^169\.254\./, /^::1$/, /^fc00:/, /^fe80:/
+];
+
+function isValidUrl(url) {
+  try {
+    const urlObj = new URL(url);
+    
+    // Check scheme
+    if (!['http:', 'https:'].includes(urlObj.protocol)) {
+      return false;
+    }
+    
+    // Check for private IP ranges
+    const hostname = urlObj.hostname;
+    if (privateIPRanges.some(range => range.test(hostname))) {
+      return false;
+    }
+    
+    // Check whitelist
+    if (!allowedDomains.includes(hostname)) {
+      return false;
+    }
+    
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+app.get('/fetch', async (req, res) => {
+  const url = req.query.url;
   
-  <!-- Container for the response. Using innerHTML to render HTML payloads. -->
-  <div id="response"></div>
+  if (!isValidUrl(url)) {
+    return res.status(400).send('Invalid URL');
+  }
   
-  <script src="./script.js"></script>
+  try {
+    const response = await fetch(url);
+    const data = await response.text();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send('Error fetching URL');
+  }
+});
+
+// Secure: Outbound proxy with filtering
+app.get('/proxy-image', async (req, res) => {
+  const imageUrl = req.query.src;
+  
+  if (!isValidUrl(imageUrl)) {
+    return res.status(400).send('Invalid image URL');
+  }
+  
+  try {
+    const response = await fetch(imageUrl);
+    const contentType = response.headers.get('content-type');
+    
+    if (!contentType.startsWith('image/')) {
+      return res.status(400).send('Not an image');
+    }
+    
+    const buffer = await response.buffer();
+    res.set('Content-Type', contentType);
+    res.send(buffer);
+  } catch (error) {
+    res.status(500).send('Error fetching image');
+  }
+});
+</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Practice Exercises -->
+    <section class="practice-exercises">
+      <h2><i class="fas fa-dumbbell"></i> Practice Exercises</h2>
+      <div class="exercise-grid">
+        <div class="exercise-card">
+          <h3><i class="fas fa-search"></i> Exercise 1: URL Validation</h3>
+          <p>Test your understanding of URL validation by identifying which URLs should be blocked.</p>
+          <div class="exercise-content">
+            <div class="url-test">
+              <label>Test URL: <input type="text" id="testUrl" placeholder="Enter URL to test"></label>
+              <button onclick="testUrlValidation()" class="btn btn-primary">Test URL</button>
+            </div>
+            <div id="urlTestResult" class="result-area"></div>
+          </div>
+        </div>
+        
+        <div class="exercise-card">
+          <h3><i class="fas fa-shield-alt"></i> Exercise 2: SSRF Prevention Quiz</h3>
+          <p>Answer questions about SSRF prevention strategies.</p>
+          <div class="exercise-content">
+            <div id="ssrfQuiz">
+              <div class="quiz-question">
+                <p><strong>Question 1:</strong> Which approach is better for preventing SSRF?</p>
+                <label><input type="radio" name="q1" value="a"> A) Blocklist of known bad URLs</label><br>
+                <label><input type="radio" name="q1" value="b"> B) Allowlist of approved domains</label><br>
+                <button onclick="checkQuiz()" class="btn btn-primary">Check Answer</button>
+              </div>
+            </div>
+            <div id="quizResult" class="result-area"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Real-World Examples -->
+    <section class="real-world-examples">
+      <h2><i class="fas fa-globe-americas"></i> Real-World Examples</h2>
+      <div class="examples-grid">
+        <div class="example-card">
+          <h3><i class="fas fa-exclamation-triangle"></i> Notable SSRF Attacks</h3>
+          <ul>
+            <li><strong>Capital One (2019):</strong> SSRF attack exposed 100+ million customer records</li>
+            <li><strong>GitHub (2016):</strong> SSRF vulnerability in webhook functionality</li>
+            <li><strong>AWS EC2 Metadata:</strong> Common target for SSRF attacks in cloud environments</li>
+            <li><strong>Internal Service Discovery:</strong> Attackers scan internal networks via SSRF</li>
+          </ul>
+        </div>
+        <div class="example-card">
+          <h3><i class="fas fa-tools"></i> Detection & Response</h3>
+          <ul>
+            <li>Monitor outbound HTTP requests from your application</li>
+            <li>Log and alert on requests to internal IP ranges</li>
+            <li>Use WAF rules to detect SSRF patterns</li>
+            <li>Implement request rate limiting and anomaly detection</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Additional Resources -->
+    <section class="resources">
+      <h2><i class="fas fa-book"></i> Additional Resources</h2>
+      <div class="resources-grid">
+        <div class="resource-card">
+          <h3><i class="fas fa-file-alt"></i> Documentation</h3>
+          <ul>
+            <li><a href="https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/19-Testing_for_Server-Side_Request_Forgery" target="_blank">OWASP Testing Guide - SSRF</a></li>
+            <li><a href="https://portswigger.net/web-security/ssrf" target="_blank">PortSwigger SSRF Guide</a></li>
+            <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" target="_blank">SSRF Prevention Cheat Sheet</a></li>
+          </ul>
+        </div>
+        <div class="resource-card">
+          <h3><i class="fas fa-tools"></i> Tools</h3>
+          <ul>
+            <li><a href="https://github.com/ffuf/ffuf" target="_blank">FFUF - Web Fuzzer</a></li>
+            <li><a href="https://github.com/jaeles-project/gospider" target="_blank">GoSpider - Web Crawler</a></li>
+            <li><a href="https://github.com/projectdiscovery/nuclei" target="_blank">Nuclei - Vulnerability Scanner</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2024 OWASP Top 10 Learning Platform. Educational purposes only.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>

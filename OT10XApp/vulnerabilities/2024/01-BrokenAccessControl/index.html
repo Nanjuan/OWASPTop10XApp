@@ -3,26 +3,336 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Broken Access Control</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>A01:2021 - Broken Access Control | OWASP Top 10 Learning</title>
+  <link rel="stylesheet" href="../../../styles/styles.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <h1>Broken Access Control</h1>
-  <button onclick="window.location.href='/'">Back to Home</button>
-  <p>This page demonstrates Broken Access Control by revealing restricted admin features when unauthorized access is simulated.</p>
+  <header class="header">
+    <div class="container">
+      <h1><i class="fas fa-user-secret"></i> A01:2021 - Broken Access Control</h1>
+      <p class="subtitle">Learn how attackers bypass authorization mechanisms</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <nav class="nav-back">
+      <a href="../../../index.html">
+        <i class="fas fa-arrow-left"></i> Back to OWASP Top 10
+      </a>
+    </nav>
+
+    <!-- Learning Overview -->
+    <section class="learning-overview">
+      <div class="overview-card">
+        <h2><i class="fas fa-info-circle"></i> What is Broken Access Control?</h2>
+        <p>Broken Access Control occurs when restrictions on what authenticated users are allowed to do are not properly enforced. Attackers can exploit these flaws to access unauthorized functionality and/or data, such as access other users' accounts, view sensitive files, modify other users' data, change access rights, etc.</p>
+        
+        <div class="key-points">
+          <h3>Key Concepts:</h3>
+          <ul>
+            <li><strong>IDOR (Insecure Direct Object References):</strong> Accessing resources by manipulating identifiers</li>
+            <li><strong>Privilege Escalation:</strong> Gaining higher privileges than intended</li>
+            <li><strong>Directory Traversal:</strong> Accessing files outside intended directory</li>
+            <li><strong>Missing Authorization:</strong> No checks for user permissions</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Attack Scenarios -->
+    <section class="attack-scenarios">
+      <h2><i class="fas fa-bug"></i> Attack Scenarios</h2>
+      
+      <div class="scenario-grid">
+        <!-- Scenario 1: IDOR Attack -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-user"></i> Scenario 1: IDOR Attack</h3>
+            <span class="difficulty beginner">Beginner</span>
+          </div>
+          <p>Access any user's profile by manipulating the user ID in the URL.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Endpoint:</h4>
+            <code>GET /api/users/{id}</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Login as a regular user (e.g., user ID: 2)</li>
+              <li>Try accessing other users' profiles by changing the ID</li>
+              <li>Observe that you can access any user's data</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <form id="idorForm">
+                <label for="userId">Enter User ID to access:</label>
+                <input type="number" id="userId" name="userId" value="1" min="1" max="10">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-search"></i> Access Profile
+                </button>
+              </form>
+              <div id="idorResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario 2: Order Access -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-shopping-cart"></i> Scenario 2: Order Access</h3>
+            <span class="difficulty intermediate">Intermediate</span>
+          </div>
+          <p>View any user's order details by manipulating the order ID.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Endpoint:</h4>
+            <code>GET /api/orders/{id}</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Try accessing different order IDs</li>
+              <li>Observe that you can see orders from other users</li>
+              <li>Extract sensitive information like payment details</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <form id="orderForm">
+                <label for="orderId">Enter Order ID to access:</label>
+                <input type="number" id="orderId" name="orderId" value="1" min="1" max="10">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-eye"></i> View Order
+                </button>
+              </form>
+              <div id="orderResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario 3: Directory Traversal -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-folder-open"></i> Scenario 3: Directory Traversal</h3>
+            <span class="difficulty advanced">Advanced</span>
+          </div>
+          <p>Access files outside the intended directory using path traversal techniques.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Endpoint:</h4>
+            <code>GET /files/{filename}</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Try accessing files using path traversal sequences</li>
+              <li>Use sequences like <code>../../../</code> to navigate directories</li>
+              <li>Access sensitive system files</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <form id="fileForm">
+                <label for="filePath">Enter file path to access:</label>
+                <input type="text" id="filePath" name="filePath" value="public_info.txt" placeholder="e.g., ../../../etc/passwd">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-file"></i> Access File
+                </button>
+              </form>
+              <div class="traversal-examples">
+                <h5>💡 Directory Traversal Examples:</h5>
+                <div class="example-grid">
+                  <div class="example-item">
+                    <strong>Unix/Linux:</strong>
+                    <code>../../../etc/passwd</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>Windows:</strong>
+                    <code>..\\..\\..\\windows\\system32\\drivers\\etc\\hosts</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>Docker Container:</strong>
+                    <code>../../../package.json</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>Docker Source Code:</strong>
+                    <code>../../../server/app.js</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>Deep Traversal:</strong>
+                    <code>../../../../../../etc/hosts</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>Encoded:</strong>
+                    <code>....//....//....//etc/passwd</code>
+                  </div>
+                </div>
+              </div>
+              <div id="fileResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prevention Strategies -->
+    <section class="prevention">
+      <h2><i class="fas fa-shield-alt"></i> Prevention Strategies</h2>
+      
+      <div class="prevention-grid">
+        <div class="prevention-card">
+          <h3><i class="fas fa-check-circle"></i> Implement Proper Authorization</h3>
+          <ul>
+            <li>Always verify user permissions before accessing resources</li>
+            <li>Use role-based access control (RBAC)</li>
+            <li>Implement principle of least privilege</li>
+          </ul>
+        </div>
+        
+        <div class="prevention-card">
+          <h3><i class="fas fa-lock"></i> Secure Object References</h3>
+          <ul>
+            <li>Use indirect object references</li>
+            <li>Validate all user inputs</li>
+            <li>Implement proper session management</li>
+          </ul>
+        </div>
+        
+        <div class="prevention-card">
+          <h3><i class="fas fa-eye"></i> Input Validation</h3>
+          <ul>
+            <li>Validate and sanitize all file paths</li>
+            <li>Use allowlists for allowed resources</li>
+            <li>Implement proper error handling</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Code Examples -->
+    <section class="code-examples">
+      <h2><i class="fas fa-code"></i> Code Examples</h2>
+      
+      <div class="code-tabs">
+        <div class="tab-buttons">
+          <button class="tab-btn active" data-tab="vulnerable">Vulnerable Code</button>
+          <button class="tab-btn" data-tab="secure">Secure Code</button>
+        </div>
+        
+        <div class="tab-content">
+          <div id="vulnerable" class="tab-pane active">
+            <h3>Vulnerable Implementation</h3>
+            <pre><code>// WARNING: This code is vulnerable to IDOR attacks
+app.get('/api/users/:id', (req, res) => {
+  const userId = req.params.id;
+  // No authorization check - any user can access any profile
+  const sql = `SELECT * FROM users WHERE id = ${userId}`;
   
-  <div class="regular-user">
-    <h2>Regular User Panel</h2>
-    <p>Welcome, user. You have limited access.</p>
-  </div>
+  db.get(sql, [], (err, user) => {
+    if (user) {
+      res.json(user); // Exposes all user data
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  });
+});</code></pre>
+          </div>
+          
+          <div id="secure" class="tab-pane">
+            <h3>Secure Implementation</h3>
+            <pre><code>// Secure implementation with proper authorization
+app.get('/api/users/:id', authenticateToken, (req, res) => {
+  const userId = req.params.id;
+  const currentUser = req.user;
   
-  <div class="admin-panel hidden">
-    <h2>Admin Panel</h2>
-    <p>This is restricted admin data that should not be accessible to a regular user.</p>
-  </div>
+  // Check if user is accessing their own profile or has admin rights
+  if (currentUser.id != userId && currentUser.role !== 'admin') {
+    return res.status(403).json({ error: 'Access denied' });
+  }
   
-  <button id="bypassBtn">Simulate Unauthorized Access</button>
+  const sql = `SELECT id, username, email, role FROM users WHERE id = ?`;
   
+  db.get(sql, [userId], (err, user) => {
+    if (user) {
+      res.json(user); // Only authorized data
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  });
+});</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Practice Exercise -->
+    <section class="practice-exercise">
+      <h2><i class="fas fa-graduation-cap"></i> Practice Exercise</h2>
+      
+      <div class="exercise-card">
+        <h3>Challenge: Find the Hidden Admin Panel</h3>
+        <p>Your mission is to find and access the hidden admin panel using directory traversal techniques. There's a secret admin file hidden in the files directory that contains sensitive information.</p>
+        
+        <div class="exercise-hints">
+          <h4>Hints:</h4>
+          <ul>
+            <li>Use directory traversal to access files outside the intended directory</li>
+            <li>Look for files with "admin" in the name</li>
+            <li>Try different path traversal sequences</li>
+            <li>The file is hidden outside the files directory</li>
+            <li>Directory listing is disabled - you must guess the file path</li>
+          </ul>
+        </div>
+        
+        <div class="exercise-form">
+          <form id="exerciseForm">
+            <label for="exerciseInput">Enter the file path you discovered:</label>
+            <input type="text" id="exerciseInput" placeholder="e.g., admin_panel.txt">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-rocket"></i> Submit Answer
+            </button>
+          </form>
+          <div id="exerciseResult" class="result-area"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progress Tracking -->
+    <section class="progress-tracking">
+      <h2><i class="fas fa-chart-line"></i> Your Progress</h2>
+      
+      <div class="progress-card">
+        <div class="progress-item">
+          <span>IDOR Attack</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="idorProgress" style="width: 0%"></div>
+          </div>
+        </div>
+        
+        <div class="progress-item">
+          <span>Order Access</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="orderProgress" style="width: 0%"></div>
+          </div>
+        </div>
+        
+        <div class="progress-item">
+          <span>Directory Traversal</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="fileProgress" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2024 OWASP Top 10 Learning Platform. For educational purposes only.</p>
+      <p><strong>Warning:</strong> This platform contains intentionally vulnerable code. Do not deploy in production environments.</p>
+    </div>
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>

@@ -3,18 +3,294 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Security Logging and Monitoring Failures</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>A09:2021 - Security Logging and Monitoring Failures | OWASP Top 10 Learning</title>
+  <link rel="stylesheet" href="../../../styles/styles.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <h1>Security Logging and Monitoring Failures</h1>
-  <button onclick="window.location.href='/'">Back to Home</button>
-  <p>
-    This demonstration simulates an attack event that should trigger logging and monitoring alerts.
-    However, due to misconfiguration, no logs are recorded and no alerts are generated.
-  </p>
-  <button id="simulateAttackBtn">Simulate Attack</button>
-  <pre id="attackOutput"></pre>
-  <script src="./script.js"></script>
+  <header class="header">
+    <div class="container">
+      <h1><i class="fas fa-clipboard-list"></i> A09:2021 - Security Logging and Monitoring Failures</h1>
+      <p class="subtitle">Learn about missing logs, log injection, and monitoring gaps</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <nav class="nav-back">
+      <a href="../../../index.html">
+        <i class="fas fa-arrow-left"></i> Back to OWASP Top 10
+      </a>
+    </nav>
+
+    <!-- Learning Overview -->
+    <section class="learning-overview">
+      <div class="overview-card">
+        <h2><i class="fas fa-info-circle"></i> What are Security Logging and Monitoring Failures?</h2>
+        <p>Security logging and monitoring failures occur when applications do not generate, store, or monitor logs for critical events. This can allow attackers to cover their tracks, evade detection, and escalate attacks without being noticed.</p>
+        <div class="key-points">
+          <h3>Key Concepts:</h3>
+          <ul>
+            <li><strong>Missing or Incomplete Logs:</strong> Failing to log security-relevant events</li>
+            <li><strong>Log Injection/Manipulation:</strong> Attackers injecting or tampering with log entries</li>
+            <li><strong>Insufficient Monitoring:</strong> Lack of real-time alerting and incident response</li>
+            <li><strong>Log Storage Risks:</strong> Storing logs insecurely or without integrity checks</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Attack Scenarios -->
+    <section class="attack-scenarios">
+      <h2><i class="fas fa-bug"></i> Attack Scenarios</h2>
+      <div class="scenario-grid">
+        <!-- Scenario 1: Missing or Incomplete Logging -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-eye-slash"></i> Scenario 1: Missing or Incomplete Logging</h3>
+            <span class="difficulty beginner">Beginner</span>
+          </div>
+          <p>Critical security events are not logged, making it difficult to detect or investigate attacks.</p>
+          <div class="scenario-content">
+            <h4>Vulnerable Component:</h4>
+            <code>Authentication endpoint without login failure logging</code>
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Attempt multiple failed logins</li>
+              <li>Notice that failures are not logged</li>
+              <li>Bypass detection and brute-force accounts</li>
+            </ol>
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <form id="missingLogForm">
+                <input type="text" id="missingLogUsername" placeholder="Username">
+                <input type="password" id="missingLogPassword" placeholder="Password">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-sign-in-alt"></i> Attempt Login
+                </button>
+              </form>
+              <div id="missingLogResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+        <!-- Scenario 2: Log Injection/Manipulation -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-file-signature"></i> Scenario 2: Log Injection/Manipulation</h3>
+            <span class="difficulty intermediate">Intermediate</span>
+          </div>
+          <p>Attackers inject malicious content into logs to hide their actions or mislead analysts.</p>
+          <div class="scenario-content">
+            <h4>Vulnerable Component:</h4>
+            <code>Log entries not sanitized or validated</code>
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Submit input with log injection payloads</li>
+              <li>Payloads break log format or hide malicious actions</li>
+              <li>Analysts are misled or log analysis tools are bypassed</li>
+            </ol>
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <form id="logInjectionForm">
+                <input type="text" id="logInjectionInput" placeholder="Enter log message or payload">
+                <button type="submit" class="btn btn-warning">
+                  <i class="fas fa-bug"></i> Inject Log Entry
+                </button>
+              </form>
+              <div id="logInjectionResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+        <!-- Scenario 3: Insufficient Monitoring & Alerting -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-bell-slash"></i> Scenario 3: Insufficient Monitoring & Alerting</h3>
+            <span class="difficulty advanced">Advanced</span>
+          </div>
+          <p>Attacks go undetected due to lack of real-time monitoring and alerting on suspicious activity.</p>
+          <div class="scenario-content">
+            <h4>Vulnerable Component:</h4>
+            <code>No alerting on suspicious or repeated failed actions</code>
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Trigger suspicious activity (e.g., repeated failed logins)</li>
+              <li>No alerts are generated</li>
+              <li>Attackers escalate attacks undetected</li>
+            </ol>
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <button id="triggerSuspiciousActivityBtn" class="btn btn-danger">
+                <i class="fas fa-exclamation-triangle"></i> Trigger Suspicious Activity
+              </button>
+              <div id="monitoringResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prevention Strategies -->
+    <section class="prevention">
+      <h2><i class="fas fa-shield-alt"></i> Prevention Strategies</h2>
+      <div class="prevention-grid">
+        <div class="prevention-card">
+          <h3><i class="fas fa-clipboard-check"></i> Comprehensive Logging</h3>
+          <ul>
+            <li>Log all authentication and authorization events</li>
+            <li>Log input validation failures and errors</li>
+            <li>Log access to sensitive data and admin actions</li>
+            <li>Store logs securely and with integrity controls</li>
+          </ul>
+        </div>
+        <div class="prevention-card">
+          <h3><i class="fas fa-bug-slash"></i> Log Injection Prevention</h3>
+          <ul>
+            <li>Sanitize and validate all log entries</li>
+            <li>Escape newlines and control characters</li>
+            <li>Use structured logging formats (e.g., JSON)</li>
+            <li>Monitor for unusual log patterns</li>
+          </ul>
+        </div>
+        <div class="prevention-card">
+          <h3><i class="fas fa-bell"></i> Monitoring & Alerting</h3>
+          <ul>
+            <li>Implement real-time monitoring and alerting</li>
+            <li>Set up alerts for suspicious or repeated failed actions</li>
+            <li>Integrate with SIEM and incident response tools</li>
+            <li>Regularly review and test alerting mechanisms</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Code Examples -->
+    <section class="code-examples">
+      <h2><i class="fas fa-code"></i> Code Examples</h2>
+      <div class="code-tabs">
+        <div class="tab-buttons">
+          <button class="tab-btn active" data-tab="vulnerable">Vulnerable Code</button>
+          <button class="tab-btn" data-tab="secure">Secure Code</button>
+        </div>
+        <div class="tab-content">
+          <div id="vulnerable" class="tab-pane active">
+            <h3>Vulnerable Implementation</h3>
+            <pre><code>// No logging of failed logins
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  if (username === 'admin' && password === 'admin123') {
+    res.send('Login successful');
+  } else {
+    // No log entry for failed login!
+    res.status(401).send('Login failed');
+  }
+});
+
+// Log injection vulnerability
+app.post('/log', (req, res) => {
+  const { message } = req.body;
+  fs.appendFileSync('app.log', message + '\n'); // No sanitization!
+  res.send('Logged');
+});
+
+// No monitoring or alerting
+function monitor() {
+  // No real-time monitoring or alerting implemented
+}
+</code></pre>
+          </div>
+          <div id="secure" class="tab-pane">
+            <h3>Secure Implementation</h3>
+            <pre><code>// Secure logging of failed logins
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  if (username === 'admin' && password === 'admin123') {
+    res.send('Login successful');
+  } else {
+    logger.warn(`Failed login for user: ${username} from IP: ${req.ip}`);
+    res.status(401).send('Login failed');
+  }
+});
+
+// Log injection prevention
+app.post('/log', (req, res) => {
+  const { message } = req.body;
+  const sanitized = message.replace(/[\r\n\t]/g, ' ');
+  fs.appendFileSync('app.log', sanitized + '\n');
+  res.send('Logged');
+});
+
+// Monitoring and alerting
+function monitor() {
+  // Real-time monitoring and alerting logic here
+  if (failedLogins > 5) {
+    alertAdmin('Multiple failed logins detected!');
+  }
+}
+</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Practice Exercise -->
+    <section class="practice-exercise">
+      <h2><i class="fas fa-graduation-cap"></i> Practice Exercise</h2>
+      <div class="exercise-card">
+        <h3>Challenge: Find the Logging Failure</h3>
+        <p>Your mission is to identify and exploit a logging or monitoring failure in the simulated application. Use the demos above to find where logs are missing or can be manipulated.</p>
+        <div class="exercise-hints">
+          <h4>Tasks:</h4>
+          <ul>
+            <li>Attempt logins and check for missing logs</li>
+            <li>Try log injection payloads</li>
+            <li>Trigger suspicious activity and check for alerts</li>
+          </ul>
+        </div>
+        <div class="exercise-form">
+          <form id="exerciseForm">
+            <label for="exerciseInput">What is a common log injection payload?</label>
+            <input type="text" id="exerciseInput" placeholder="e.g., \nInjectedEntry">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-rocket"></i> Submit Answer
+            </button>
+          </form>
+          <div id="exerciseResult" class="result-area"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progress Tracking -->
+    <section class="progress-tracking">
+      <h2><i class="fas fa-chart-line"></i> Your Progress</h2>
+      <div class="progress-card">
+        <div class="progress-item">
+          <span>Logging</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="loggingProgress" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="progress-item">
+          <span>Log Injection</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="injectionProgress" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="progress-item">
+          <span>Monitoring</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="monitoringProgress" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2024 OWASP Top 10 Learning Platform. For educational purposes only.</p>
+      <p><strong>Warning:</strong> This platform contains intentionally vulnerable code. Do not deploy in production environments.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>

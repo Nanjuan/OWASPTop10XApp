@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  log4j-vulnerable:
+    build: .
+    ports:
+      - "8081:8080"
+    container_name: log4j-vulnerable-app
+    restart: unless-stopped 

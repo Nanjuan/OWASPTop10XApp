@@ -3,22 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OWASP Top 10 Demonstrations</title>
+    <title>OWASP Top 10 2021 - Interactive Learning Platform</title>
     <link rel="stylesheet" href="styles/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>OWASP Top 10 Demonstrations</h1>
-    <ul>
-        <li><a href="vulnerabilities/2024/01-BrokenAccessControl/index.html">A01:2021-Broken Access Control</a></li>
-        <li><a href="vulnerabilities/2024/02-CryptographicFailures/index.html">A02:2021-Cryptographic Failures</a></li>
-        <li><a href="vulnerabilities/2024/03-Injection/index.html">A03:2021-Injection</a></li>
-        <li><a href="vulnerabilities/2024/04-InsecureDesign/index.html">A04:2021-Insecure Design</a></li>
-        <li><a href="vulnerabilities/2024/05-SecurityMisconfiguration/index.html">A05:2021-Security Misconfiguration</a></li>
-        <li><a href="vulnerabilities/2024/06-VulnerableandOutdatedComponents/index.html">A06:2021-Vulnerable and Outdated Components</a></li>
-        <li><a href="vulnerabilities/2024/07-IdentificationandAuthenticationFailures/index.html">A07:2021-Identification and Authentication Failures</a></li>
-        <li><a href="vulnerabilities/2024/08-SoftwareandDataIntegrityFailures/index.html">A08:2021-Software and Data Integrity Failures</a></li>
-        <li><a href="vulnerabilities/2024/09-SecurityLoggingandMonitoringFailures/index.html">A09:2021-Security Logging and Monitoring Failures</a></li>
-        <li><a href="vulnerabilities/2024/10-ServerSideRequestForgery/index.html">A10:2021-Server-Side Request Forgery (SSRF)</a></li>
-    </ul>
+    <header class="header">
+        <div class="container">
+            <h1><i class="fas fa-shield-alt"></i> OWASP Top 10 2021</h1>
+            <p class="subtitle">Interactive Learning Platform for Web Application Security</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="intro">
+            <h2>Welcome to the OWASP Top 10 Learning Platform</h2>
+            <p>This interactive platform demonstrates the OWASP Top 10 2021 vulnerabilities through realistic scenarios. Each module includes:</p>
+            <ul>
+                <li><i class="fas fa-info-circle"></i> Detailed vulnerability explanations</li>
+                <li><i class="fas fa-bug"></i> Multiple attack vectors and techniques</li>
+                <li><i class="fas fa-tools"></i> Interactive exploitation exercises</li>
+                <li><i class="fas fa-shield-alt"></i> Prevention and mitigation strategies</li>
+                <li><i class="fas fa-graduation-cap"></i> Progressive difficulty levels</li>
+            </ul>
+        </section>
+
+        <section class="vulnerabilities-grid">
+            <div class="vulnerability-card" data-difficulty="beginner">
+                <div class="card-header">
+                    <h3>A01:2021 - Broken Access Control</h3>
+                    <span class="difficulty beginner">Beginner</span>
+                </div>
+                <p>Learn how attackers bypass authorization mechanisms to access unauthorized resources.</p>
+                <div class="card-features">
+                    <span><i class="fas fa-user-secret"></i> IDOR Attacks</span>
+                    <span><i class="fas fa-key"></i> Privilege Escalation</span>
+                    <span><i class="fas fa-folder-open"></i> Directory Traversal</span>
+                </div>
+                <a href="vulnerabilities/2024/01-BrokenAccessControl/index.html" class="btn btn-primary">
+                    <i class="fas fa-play"></i> Start Learning
+                </a>
+            </div>
+
+            <div class="vulnerability-card" data-difficulty="beginner">
+                <div class="card-header">
+                    <h3>A02:2021 - Cryptographic Failures</h3>
+                    <span class="difficulty beginner">Beginner</span>
+                </div>
+                <p>Explore how weak cryptography leads to data exposure and system compromise.</p>
+                <div class="card-features">
+                    <span><i class="fas fa-lock"></i> Weak Encryption</span>
+                    <span><i class="fas fa-key"></i> Key Management</span>
+                    <span><i class="fas fa-database"></i> Data at Rest</span>
+                </div>
+                <a href="vulnerabilities/2024/02-CryptographicFailures/index.html" class="btn btn-primary">
+                    <i class="fas fa-play"></i> Start Learning
+                </a>
+            </div>
+
+            <div class="vulnerability-card" data-difficulty="intermediate">
+                <div class="card-header">
+                    <h3>A03:2021 - Injection</h3>
+                    <span class="difficulty intermediate">Intermediate</span>
+                </div>
+                <p>Master various injection attacks including SQL, NoSQL, LDAP, and command injection.</p>
+                <div class="card-features">
+                    <span><i class="fas fa-database"></i> SQL Injection</span>
+                    <span><i class="fas fa-terminal"></i> Command Injection</span>
+                    <span><i class="fas fa-code"></i> XSS</span>
+                </div>
+                <a href="vulnerabilities/2024/03-Injection/index.html" class="btn btn-primary">
+                    <i class="fas fa-play"></i> Start Learning
+                </a>
+            </div>
+
+            <div class="vulnerability-card" data-difficulty="intermediate">
+                <div class="card-header">
+                    <h3>A04:2021 - Insecure Design</h3>
+                    <span class="difficulty intermediate">Intermediate</span>
+                </div>
+                <p>Understand how design flaws create fundamental security weaknesses.</p>
+                <div class="card-features">
+                    <span><i class="fas fa-archway"></i> Architecture Flaws</span>
+                    <span><i class="fas fa-cogs"></i> Business Logic</span>
+                    <span><i class="fas fa-puzzle-piece"></i> Design Patterns</span>
+                </div>
+                <a href="vulnerabilities/2024/04-InsecureDesign/index.html" class="btn btn-primary">
+                    <i class="fas fa-play"></i> Start Learning
+                </a>
+            </div>
+
+            <div class="vulnerability-card" data-difficulty="beginner">
+                <div class="card-header">
+                    <h3>A05:2021 - Security Misconfiguration</h3>
+                    <span class="difficulty beginner">Beginner</span>
+                </div>
+                <p>Learn about common configuration mistakes that expose applications to attacks.</p>
+                <div class="card-features">
+                    <span><i class="fas fa-cog"></i> Default Configs</span>
+                    <span><i class="fas fa-server"></i> Server Hardening</span>
+                    <span><i class="fas fa-cloud"></i> Cloud Security</span>
+                </div>
+                <a href="vulnerabilities/2024/05-SecurityMisconfiguration/index.html" class="btn btn-primary">
+                    <i class="fas fa-play"></i> Start Learning
+                </a>
+            </div>
+
+            <div class="vulnerability-card" data-difficulty="intermediate">
+                <div class="card-header">
+                    <h3>A06:2021 - Vulnerable and Outdated Components</h3>
+                    <span class="difficulty intermediate">Intermediate</span>
+                </div>
+                <p>Explore the risks of using outdated libraries and components with known vulnerabilities.</p>
+                <div class="card-features">
+                    <span><i class="fas fa-box"></i> Dependency Management</span>
+                    <span><i class="fas fa-exclamation-triangle"></i> CVE Exploitation</span>
+                    <span><i class="fas fa-sync"></i> Version Control</span>
+                </div>
+                <a href="vulnerabilities/2024/06-VulnerableandOutdatedComponents/index.html" class="btn btn-primary">
+                    <i class="fas fa-play"></i> Start Learning
+                </a>
+            </div>
+
+            <div class="vulnerability-card" data-difficulty="beginner">
+                <div class="card-header">
+                    <h3>A07:2021 - Identification and Authentication Failures</h3>
+                    <span class="difficulty beginner">Beginner</span>
+                </div>
+                <p>Understand weak authentication mechanisms and session management flaws.</p>
+                <div class="card-features">
+                    <span><i class="fas fa-user"></i> Weak Passwords</span>
+                    <span><i class="fas fa-clock"></i> Session Management</span>
+                    <span><i class="fas fa-mobile-alt"></i> MFA Bypass</span>
+                </div>
+                <a href="vulnerabilities/2024/07-IdentificationandAuthenticationFailures/index.html" class="btn btn-primary">
+                    <i class="fas fa-play"></i> Start Learning
+                </a>
+            </div>
+
+            <div class="vulnerability-card" data-difficulty="advanced">
+                <div class="card-header">
+                    <h3>A08:2021 - Software and Data Integrity Failures</h3>
+                    <span class="difficulty advanced">Advanced</span>
+                </div>
+                <p>Learn about supply chain attacks and integrity verification failures.</p>
+                <div class="card-features">
+                    <span><i class="fas fa-link"></i> Supply Chain</span>
+                    <span><i class="fas fa-check-circle"></i> Integrity Checks</span>
+                    <span><i class="fas fa-download"></i> CI/CD Security</span>
+                </div>
+                <a href="vulnerabilities/2024/08-SoftwareandDataIntegrityFailures/index.html" class="btn btn-primary">
+                    <i class="fas fa-play"></i> Start Learning
+                </a>
+            </div>
+
+            <div class="vulnerability-card" data-difficulty="intermediate">
+                <div class="card-header">
+                    <h3>A09:2021 - Security Logging and Monitoring Failures</h3>
+                    <span class="difficulty intermediate">Intermediate</span>
+                </div>
+                <p>Explore how inadequate logging enables attackers to operate undetected.</p>
+                <div class="card-features">
+                    <span><i class="fas fa-clipboard-list"></i> Log Management</span>
+                    <span><i class="fas fa-eye"></i> Monitoring</span>
+                    <span><i class="fas fa-bell"></i> Alerting</span>
+                </div>
+                <a href="vulnerabilities/2024/09-SecurityLoggingandMonitoringFailures/index.html" class="btn btn-primary">
+                    <i class="fas fa-play"></i> Start Learning
+                </a>
+            </div>
+
+            <div class="vulnerability-card" data-difficulty="advanced">
+                <div class="card-header">
+                    <h3>A10:2021 - Server-Side Request Forgery (SSRF)</h3>
+                    <span class="difficulty advanced">Advanced</span>
+                </div>
+                <p>Master SSRF attacks that force servers to make unauthorized requests.</p>
+                <div class="card-features">
+                    <span><i class="fas fa-globe"></i> URL Manipulation</span>
+                    <span><i class="fas fa-network-wired"></i> Internal Access</span>
+                    <span><i class="fas fa-cloud"></i> Cloud Metadata</span>
+                </div>
+                <a href="vulnerabilities/2024/10-ServerSideRequestForgery/index.html" class="btn btn-primary">
+                    <i class="fas fa-play"></i> Start Learning
+                </a>
+            </div>
+        </section>
+
+        <section class="difficulty-filter">
+            <h3>Filter by Difficulty:</h3>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="beginner">Beginner</button>
+                <button class="filter-btn" data-filter="intermediate">Intermediate</button>
+                <button class="filter-btn" data-filter="advanced">Advanced</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 OWASP Top 10 Learning Platform. For educational purposes only.</p>
+            <p><strong>Warning:</strong> This platform contains intentionally vulnerable code. Do not deploy in production environments.</p>
+        </div>
+    </footer>
+
+    <script src="scripts/main.js"></script>
 </body>
 </html>

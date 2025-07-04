@@ -3,25 +3,300 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vulnerable and Outdated Components</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>A06:2021 - Vulnerable and Outdated Components | OWASP Top 10 Learning</title>
+  <link rel="stylesheet" href="../../../styles/styles.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <h1>Vulnerable and Outdated Components</h1>
-  <button onclick="window.location.href='/'">Back to Home</button>
-  <p>
-    This demonstration simulates a vulnerability caused by using an outdated library.
-    Here, we are deliberately loading jQuery version 1.7.2 – a version known to be outdated and with potential security issues.
-  </p>
-  
-  <!-- Simulate loading an outdated library -->
+  <header class="header">
+    <div class="container">
+      <h1><i class="fas fa-exclamation-triangle"></i> A06:2021 - Vulnerable and Outdated Components</h1>
+      <p class="subtitle">Learn about the risks of using outdated libraries and components</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <nav class="nav-back">
+      <a href="../../../index.html">
+        <i class="fas fa-arrow-left"></i> Back to OWASP Top 10
+      </a>
+    </nav>
+
+    <!-- Learning Overview -->
+    <section class="learning-overview">
+      <div class="overview-card">
+        <h2><i class="fas fa-info-circle"></i> What are Vulnerable and Outdated Components?</h2>
+        <p>Vulnerable and outdated components occur when applications use libraries, frameworks, and other software modules with known security vulnerabilities. This is one of the most common and easily exploitable vulnerabilities, as attackers can use publicly available exploits against known vulnerabilities.</p>
+        
+        <div class="key-points">
+          <h3>Key Concepts:</h3>
+          <ul>
+            <li><strong>Known Vulnerabilities:</strong> Using components with publicly disclosed security flaws</li>
+            <li><strong>Outdated Versions:</strong> Running software that is no longer supported or patched</li>
+            <li><strong>Dependency Management:</strong> Failing to update or monitor third-party dependencies</li>
+            <li><strong>Exploit Availability:</strong> Attackers can use automated tools to exploit known vulnerabilities</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Attack Scenarios -->
+    <section class="attack-scenarios">
+      <h2><i class="fas fa-bug"></i> Attack Scenarios</h2>
+      
+      <div class="scenario-grid">
+        <!-- Scenario 1: Outdated jQuery -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-code"></i> Scenario 1: Outdated jQuery Library</h3>
+            <span class="difficulty beginner">Beginner</span>
+          </div>
+          <p>Exploit XSS vulnerabilities in an outdated jQuery library that has known security flaws.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Component:</h4>
+            <code>jQuery 1.7.2 (Released 2011, Multiple CVE vulnerabilities)</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Identify outdated jQuery version in use</li>
+              <li>Research known vulnerabilities for that version</li>
+              <li>Use publicly available exploits</li>
+              <li>Execute XSS attacks through vulnerable functions</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <form id="jqueryExploitForm">
+                <label for="xssPayload">Enter XSS Payload:</label>
+                <input type="text" id="xssPayload" name="xssPayload" 
+                       placeholder="e.g., <script>alert('XSS')</script>" 
+                       value="<script>alert('XSS Attack Successful!')</script>">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-rocket"></i> Execute XSS Payload
+                </button>
+              </form>
+              
+              <div class="payload-examples">
+                <h5>Example XSS Payloads:</h5>
+                <div class="example-buttons">
+                  <button type="button" class="btn btn-sm btn-secondary" onclick="setPayload('<script>alert(\'Basic XSS\')</script>')">
+                    Basic Alert
+                  </button>
+                  <button type="button" class="btn btn-sm btn-secondary" onclick="setPayload('<img src=x onerror=alert(\'Image XSS\')>')">
+                    Image XSS
+                  </button>
+                  <button type="button" class="btn btn-sm btn-secondary" onclick="setPayload('<svg onload=alert(\'SVG XSS\')>')">
+                    SVG XSS
+                  </button>
+                  <button type="button" class="btn btn-sm btn-secondary" onclick="setPayload('<iframe src=javascript:alert(\'Iframe XSS\')>')">
+                    Iframe XSS
+                  </button>
+                  <button type="button" class="btn btn-sm btn-secondary" onclick="setPayload('<body onload=alert(\'Body XSS\')>')">
+                    Body XSS
+                  </button>
+                </div>
+              </div>
+              
+              <div id="jqueryResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <!-- Scenario 2: Outdated Dependencies -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-box"></i> Scenario 2: Outdated NPM Dependencies</h3>
+            <span class="difficulty intermediate">Intermediate</span>
+          </div>
+          <p>Scan and identify vulnerable dependencies in a Node.js application's package.json.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Components:</h4>
+            <code>Multiple outdated NPM packages with known CVEs</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Scan application dependencies</li>
+              <li>Identify outdated packages</li>
+              <li>Research known vulnerabilities</li>
+              <li>Exploit specific package vulnerabilities</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <button id="scanDepsBtn" class="btn btn-primary">
+                <i class="fas fa-search"></i> Scan Dependencies
+              </button>
+              <div id="depsResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prevention Strategies -->
+    <section class="prevention">
+      <h2><i class="fas fa-shield-alt"></i> Prevention Strategies</h2>
+      
+      <div class="prevention-grid">
+        <div class="prevention-card">
+          <h3><i class="fas fa-sync-alt"></i> Regular Updates</h3>
+          <ul>
+            <li>Implement automated dependency scanning</li>
+            <li>Set up automated security updates</li>
+            <li>Monitor for new vulnerabilities</li>
+            <li>Test updates in staging environments</li>
+          </ul>
+        </div>
+        
+        <div class="prevention-card">
+          <h3><i class="fas fa-tools"></i> Vulnerability Management</h3>
+          <ul>
+            <li>Use vulnerability scanning tools</li>
+            <li>Subscribe to security advisories</li>
+            <li>Implement Software Bill of Materials (SBOM)</li>
+            <li>Regular security audits</li>
+          </ul>
+        </div>
+        
+        <div class="prevention-card">
+          <h3><i class="fas fa-lock"></i> Secure Development</h3>
+          <ul>
+            <li>Use only trusted component sources</li>
+            <li>Implement dependency whitelisting</li>
+            <li>Use minimal required permissions</li>
+            <li>Regular penetration testing</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Code Examples -->
+    <section class="code-examples">
+      <h2><i class="fas fa-code"></i> Code Examples</h2>
+      
+      <div class="code-tabs">
+        <div class="tab-buttons">
+          <button class="tab-btn active" data-tab="vulnerable">Vulnerable Code</button>
+          <button class="tab-btn" data-tab="secure">Secure Code</button>
+        </div>
+        
+        <div class="tab-content">
+          <div id="vulnerable" class="tab-pane active">
+            <h3>Vulnerable Implementation</h3>
+            <pre><code>// WARNING: Using outdated jQuery with known vulnerabilities
+&lt;script src="https://code.jquery.com/jquery-1.7.2.min.js"&gt;&lt;/script&gt;
+
+// Vulnerable to XSS attacks
+$('#userInput').html(userProvidedData); // Dangerous!
+
+// Using outdated Express version
+"express": "4.16.0", // Vulnerable to prototype pollution
+
+// Outdated NPM dependencies
+{
+  "dependencies": {
+    "express": "4.16.0", // Outdated
+    "lodash": "4.17.10", // Outdated
+    "moment": "2.22.0"   // Outdated
+  }
+}</code></pre>
+          </div>
+          
+          <div id="secure" class="tab-pane">
+            <h3>Secure Implementation</h3>
+            <pre><code>// Use latest stable jQuery version
+&lt;script src="https://code.jquery.com/jquery-3.7.1.min.js"&gt;&lt;/script&gt;
+
+// Safe DOM manipulation
+$('#userInput').text(userProvidedData); // Safe!
+
+// Updated Express version
+"express": "^4.18.2", // Latest secure version
+
+// Updated NPM dependencies
+{
+  "dependencies": {
+    "express": "^4.18.2", // Latest
+    "lodash": "^4.17.21", // Latest
+    "moment": "^2.29.4"   // Latest
+  }
+}
+
+// Automated dependency scanning
+npm audit
+npm update
+npm audit fix</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Practice Exercise -->
+    <section class="practice-exercise">
+      <h2><i class="fas fa-graduation-cap"></i> Practice Exercise</h2>
+      
+      <div class="exercise-card">
+        <h3>Challenge: Identify Vulnerable Components</h3>
+        <p>Your mission is to identify and analyze vulnerable components in a simulated application. Use the tools and techniques you've learned to find outdated libraries.</p>
+        
+        <div class="exercise-hints">
+          <h4>Tasks:</h4>
+          <ul>
+            <li>Scan the application for outdated jQuery versions</li>
+            <li>Check for outdated NPM dependencies</li>
+            <li>Research known CVEs for found components</li>
+            <li>Identify vulnerable library versions</li>
+          </ul>
+        </div>
+        
+        <div class="exercise-form">
+          <form id="exerciseForm">
+            <label for="exerciseInput">What is a common CVE for outdated jQuery versions?</label>
+            <input type="text" id="exerciseInput" placeholder="e.g., CVE-2011-4969">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-rocket"></i> Submit Answer
+            </button>
+          </form>
+          <div id="exerciseResult" class="result-area"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progress Tracking -->
+    <section class="progress-tracking">
+      <h2><i class="fas fa-chart-line"></i> Your Progress</h2>
+      
+      <div class="progress-card">
+        <div class="progress-item">
+          <span>jQuery Vulnerability</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="jqueryProgress" style="width: 0%"></div>
+          </div>
+        </div>
+        
+        <div class="progress-item">
+          <span>Dependency Scanning</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="depsProgress" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2024 OWASP Top 10 Learning Platform. For educational purposes only.</p>
+      <p><strong>Warning:</strong> This platform contains intentionally vulnerable code. Do not deploy in production environments.</p>
+    </div>
+  </footer>
+
+  <!-- Load vulnerable jQuery for demo purposes -->
   <script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
-  
-  <p>Using jQuery 1.7.2 may expose your application to known vulnerabilities, such as XSS attacks.</p>
-  
-  <button id="vulnerableButton">Simulate Exploit</button>
-  <pre id="result"></pre>
-  
   <script src="script.js"></script>
 </body>
 </html>

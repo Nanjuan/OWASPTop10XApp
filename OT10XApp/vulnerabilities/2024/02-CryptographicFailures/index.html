@@ -3,27 +3,378 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cryptographic Failures</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>A02:2021 - Cryptographic Failures | OWASP Top 10 Learning</title>
+  <link rel="stylesheet" href="../../../styles/styles.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <h1>Cryptographic Failures</h1>
-  <button onclick="window.location.href='/'">Back to Home</button>
-  <p>This page demonstrates a common cryptographic failure by storing sensitive data in plaintext.</p>
-  <p>The sensitive data is store in local storage. In the Developer Tools.</p>
+  <header class="header">
+    <div class="container">
+      <h1><i class="fas fa-key"></i> A02:2021 - Cryptographic Failures</h1>
+      <p class="subtitle">Learn how cryptographic weaknesses expose sensitive data</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <nav class="nav-back">
+      <a href="../../../index.html">
+        <i class="fas fa-arrow-left"></i> Back to OWASP Top 10
+      </a>
+    </nav>
+
+    <!-- Learning Overview -->
+    <section class="learning-overview">
+      <div class="overview-card">
+        <h2><i class="fas fa-info-circle"></i> What are Cryptographic Failures?</h2>
+        <p>Cryptographic failures occur when sensitive data is not properly protected through encryption, weak algorithms are used, or cryptographic implementations are flawed. This can lead to exposure of sensitive information like passwords, credit card numbers, personal data, and business secrets.</p>
+        
+        <div class="key-points">
+          <h3>Key Concepts:</h3>
+          <ul>
+            <li><strong>Weak Password Storage:</strong> Storing passwords in plaintext or weak hashes</li>
+            <li><strong>Weak Encryption Algorithms:</strong> Using outdated or broken algorithms</li>
+            <li><strong>Insecure Transmission:</strong> Sending data over unencrypted channels</li>
+            <li><strong>Poor Key Management:</strong> Improper handling of encryption keys</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Attack Scenarios -->
+    <section class="attack-scenarios">
+      <h2><i class="fas fa-bug"></i> Attack Scenarios</h2>
+      
+      <div class="scenario-grid">
+        <!-- Scenario 1: Weak Password Storage -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-user-secret"></i> Scenario 1: Weak Password Storage</h3>
+            <span class="difficulty beginner">Beginner</span>
+          </div>
+          <p>Passwords are stored in plaintext or using weak hashing algorithms, making them easily readable if the database is compromised.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Endpoint:</h4>
+            <code>POST /api/register</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Register a new user account</li>
+              <li>Observe how passwords are stored</li>
+              <li>Access the database to see plaintext passwords</li>
+              <li>Use compromised credentials for other accounts</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <form id="passwordStorageForm">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-save"></i> Store Password
+                </button>
+              </form>
+              <div id="passwordResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario 2: Weak Encryption -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-lock"></i> Scenario 2: Weak Encryption Algorithm</h3>
+            <span class="difficulty intermediate">Intermediate</span>
+          </div>
+          <p>Using outdated or weak encryption algorithms that can be easily broken with modern computing power.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Endpoint:</h4>
+            <code>POST /api/encrypt</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Encrypt sensitive data with weak algorithms</li>
+              <li>Intercept the encrypted data</li>
+              <li>Use brute force or rainbow tables</li>
+              <li>Decrypt sensitive information</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <form id="encryptionForm">
+                <label for="secretMessage">Secret Message:</label>
+                <input type="text" id="secretMessage" name="secretMessage" placeholder="Enter sensitive data" required>
+                <label for="encryptionType">Encryption Type:</label>
+                <select id="encryptionType" name="encryptionType">
+                  <option value="weak">Weak (MD5)</option>
+                  <option value="medium">Medium (SHA1)</option>
+                  <option value="strong">Strong (SHA256)</option>
+                </select>
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-lock"></i> Encrypt Data
+                </button>
+              </form>
+              <div id="encryptionResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario 3: Insecure Transmission -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-wifi"></i> Scenario 3: Insecure Data Transmission</h3>
+            <span class="difficulty advanced">Advanced</span>
+          </div>
+          <p>Sensitive data is transmitted over insecure channels without proper encryption, making it vulnerable to interception.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Endpoint:</h4>
+            <code>POST /api/transmit-data</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Send sensitive data over HTTP</li>
+              <li>Intercept network traffic</li>
+              <li>Read sensitive data in plaintext</li>
+              <li>Capture credentials and personal information</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <form id="transmissionForm">
+                <label for="creditCard">Credit Card Number:</label>
+                <input type="text" id="creditCard" name="creditCard" placeholder="1234-5678-9012-3456" required>
+                <label for="transmissionType">Transmission Type:</label>
+                <select id="transmissionType" name="transmissionType">
+                  <option value="insecure">Insecure (HTTP)</option>
+                  <option value="secure">Secure (HTTPS)</option>
+                </select>
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-paper-plane"></i> Send Data
+                </button>
+              </form>
+              <div class="transmission-info">
+                <h5>💡 How to Check Network Traffic:</h5>
+                <div class="info-grid">
+                  <div class="info-item">
+                    <strong>Chrome DevTools:</strong>
+                    <code>F12 → Network tab → Send request → Check request/response</code>
+                  </div>
+                  <div class="info-item">
+                    <strong>Firefox DevTools:</strong>
+                    <code>F12 → Network tab → Send request → Check request/response</code>
+                  </div>
+                  <div class="info-item">
+                    <strong>Wireshark:</strong>
+                    <code>Capture network traffic → Filter HTTP requests</code>
+                  </div>
+                </div>
+              </div>
+              <div id="transmissionResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prevention Strategies -->
+    <section class="prevention">
+      <h2><i class="fas fa-shield-alt"></i> Prevention Strategies</h2>
+      
+      <div class="prevention-grid">
+        <div class="prevention-card">
+          <h3><i class="fas fa-key"></i> Strong Password Storage</h3>
+          <ul>
+            <li>Use strong hashing algorithms (bcrypt, Argon2, PBKDF2)</li>
+            <li>Add salt to password hashes</li>
+            <li>Never store passwords in plaintext</li>
+          </ul>
+        </div>
+        
+        <div class="prevention-card">
+          <h3><i class="fas fa-lock"></i> Strong Encryption</h3>
+          <ul>
+            <li>Use modern encryption algorithms (AES-256, RSA-2048)</li>
+            <li>Avoid deprecated algorithms (MD5, SHA1, DES)</li>
+            <li>Implement proper key management</li>
+          </ul>
+        </div>
+        
+        <div class="prevention-card">
+          <h3><i class="fas fa-shield-alt"></i> Secure Transmission</h3>
+          <ul>
+            <li>Always use HTTPS/TLS for sensitive data</li>
+            <li>Implement certificate pinning</li>
+            <li>Use secure communication protocols</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Code Examples -->
+    <section class="code-examples">
+      <h2><i class="fas fa-code"></i> Code Examples</h2>
+      
+      <div class="code-tabs">
+        <div class="tab-buttons">
+          <button class="tab-btn active" data-tab="vulnerable">Vulnerable Code</button>
+          <button class="tab-btn" data-tab="secure">Secure Code</button>
+        </div>
+        
+        <div class="tab-content">
+          <div id="vulnerable" class="tab-pane active">
+            <h3>Vulnerable Implementation</h3>
+            <pre><code>// WARNING: This code is vulnerable to cryptographic failures
+app.post('/api/register', (req, res) => {
+  const { username, password } = req.body;
   
-  <form id="loginForm">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
-    <br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-    <br>
-    <button type="submit">Login</button>
-  </form>
+  // VULNERABLE: Storing password in plaintext
+  const sql = `INSERT INTO users (username, password) VALUES (?, ?)`;
   
-  <div id="message"></div>
+  db.run(sql, [username, password], (err) => {
+    if (err) {
+      res.status(500).json({ error: 'Registration failed' });
+    } else {
+      res.json({ message: 'User registered successfully' });
+    }
+  });
+});
+
+// VULNERABLE: Weak encryption
+function encryptData(data) {
+  const crypto = require('crypto');
+  // Using weak MD5 hash
+  return crypto.createHash('md5').update(data).digest('hex');
+}</code></pre>
+          </div>
+          
+          <div id="secure" class="tab-pane">
+            <h3>Secure Implementation</h3>
+            <pre><code>// Secure implementation with proper cryptography
+const bcrypt = require('bcrypt');
+const crypto = require('crypto');
+
+app.post('/api/register', async (req, res) => {
+  const { username, password } = req.body;
   
+  try {
+    // SECURE: Hash password with bcrypt
+    const saltRounds = 12;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    
+    const sql = `INSERT INTO users (username, password) VALUES (?, ?)`;
+    
+    db.run(sql, [username, hashedPassword], (err) => {
+      if (err) {
+        res.status(500).json({ error: 'Registration failed' });
+      } else {
+        res.json({ message: 'User registered successfully' });
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Registration failed' });
+  }
+});
+
+// SECURE: Strong encryption
+function encryptData(data, key) {
+  const algorithm = 'aes-256-gcm';
+  const iv = crypto.randomBytes(16);
+  const cipher = crypto.createCipher(algorithm, key);
+  
+  let encrypted = cipher.update(data, 'utf8', 'hex');
+  encrypted += cipher.final('hex');
+  
+  return {
+    encrypted,
+    iv: iv.toString('hex'),
+    tag: cipher.getAuthTag().toString('hex')
+  };
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Practice Exercise -->
+    <section class="practice-exercise">
+      <h2><i class="fas fa-graduation-cap"></i> Practice Exercise</h2>
+      
+      <div class="exercise-card">
+        <h3>Challenge: Crack the Weak Hash</h3>
+        <p>Your mission is to crack a weak MD5 hash. The hash below was created using the MD5 algorithm, which is considered cryptographically broken and can be easily reversed using online tools.</p>
+        
+        <div class="hash-display">
+          <h4>Target MD5 Hash:</h4>
+          <div class="hash-box">
+            <code>482c811da5d5b4bc6d497ffa98491e38</code>
+            <button class="btn btn-secondary" onclick="copyHash()">
+              <i class="fas fa-copy"></i> Copy
+            </button>
+          </div>
+        </div>
+        
+        <div class="exercise-hints">
+          <h4>Hints:</h4>
+          <ul>
+            <li>MD5 is a weak hashing algorithm that can be easily cracked</li>
+            <li>Use online MD5 crackers like <a href="https://crackstation.net/" target="_blank">CrackStation</a> or <a href="https://www.md5online.org/" target="_blank">MD5Online</a></li>
+            <li>The original password is a common word with numbers</li>
+            <li>Try common password patterns</li>
+          </ul>
+        </div>
+        
+        <div class="exercise-form">
+          <form id="exerciseForm">
+            <label for="exerciseInput">Enter the cracked password:</label>
+            <input type="text" id="exerciseInput" placeholder="Enter the original password">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-rocket"></i> Submit Answer
+            </button>
+          </form>
+          <div id="exerciseResult" class="result-area"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progress Tracking -->
+    <section class="progress-tracking">
+      <h2><i class="fas fa-chart-line"></i> Your Progress</h2>
+      
+      <div class="progress-card">
+        <div class="progress-item">
+          <span>Password Storage</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="passwordProgress" style="width: 0%"></div>
+          </div>
+        </div>
+        
+        <div class="progress-item">
+          <span>Weak Encryption</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="encryptionProgress" style="width: 0%"></div>
+          </div>
+        </div>
+        
+        <div class="progress-item">
+          <span>Data Transmission</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="transmissionProgress" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2024 OWASP Top 10 Learning Platform. For educational purposes only.</p>
+      <p><strong>Warning:</strong> This platform contains intentionally vulnerable code. Do not deploy in production environments.</p>
+    </div>
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>

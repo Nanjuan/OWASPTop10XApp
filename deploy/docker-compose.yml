@@ -9,4 +9,9 @@ services:
     volumes:
       - ../OT10XApp:/usr/src/app
       - /usr/src/app/node_modules  # preserve container's node_modules
+      - /var/run/docker.sock:/var/run/docker.sock  # mount Docker socket
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    privileged: true  # Give container privileged access for Docker operations
+    user: root  # Run as root to have Docker socket access
     command: npm run dev

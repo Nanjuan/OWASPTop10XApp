@@ -3,26 +3,318 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Security Misconfiguration</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>A05:2021 - Security Misconfiguration | OWASP Top 10 Learning</title>
+  <link rel="stylesheet" href="../../../styles/styles.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <h1>Security Misconfiguration</h1>
-  <button onclick="window.location.href='/'">Back to Home</button>
-  <p>
-    This demonstration simulates a security misconfiguration by exposing sensitive files through a public directory.
-    In a secure environment, such files would not be accessible.
-  </p>
-  <p>
-    Click the button below to fetch the content of a sensitive file (<code>secret.txt</code>) from the misconfigured <code>/files</code> directory.
-  </p>
-  <button id="fetchSensitive">View Sensitive File</button>
-  <pre id="output"></pre>
+  <header class="header">
+    <div class="container">
+      <h1><i class="fas fa-cog"></i> A05:2021 - Security Misconfiguration</h1>
+      <p class="subtitle">Learn about common configuration mistakes that expose applications</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <nav class="nav-back">
+      <a href="../../../index.html">
+        <i class="fas fa-arrow-left"></i> Back to OWASP Top 10
+      </a>
+    </nav>
+
+    <!-- Learning Overview -->
+    <section class="learning-overview">
+      <div class="overview-card">
+        <h2><i class="fas fa-info-circle"></i> What is Security Misconfiguration?</h2>
+        <p>Security misconfiguration occurs when security settings are not properly configured, default configurations are used, or security features are disabled. This can happen at any level of the application stack and often provides attackers with easy access to sensitive information or functionality.</p>
+        
+        <div class="key-points">
+          <h3>Key Concepts:</h3>
+          <ul>
+            <li><strong>Default Configurations:</strong> Using insecure default settings</li>
+            <li><strong>Information Disclosure:</strong> Exposing sensitive system information</li>
+            <li><strong>Directory Listing:</strong> Allowing access to file listings</li>
+            <li><strong>Unnecessary Services:</strong> Running unnecessary or vulnerable services</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Attack Scenarios -->
+    <section class="attack-scenarios">
+      <h2><i class="fas fa-bug"></i> Attack Scenarios</h2>
+      
+      <div class="scenario-grid">
+        <!-- Scenario 1: Information Disclosure -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-info"></i> Scenario 1: Information Disclosure</h3>
+            <span class="difficulty beginner">Beginner</span>
+          </div>
+          <p>Discover sensitive information about the application and server through exposed headers and error messages.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Endpoints:</h4>
+            <code>GET /health</code><br>
+            <code>Any endpoint with exposed headers</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Check HTTP response headers for sensitive information</li>
+              <li>Look for server version information</li>
+              <li>Analyze error messages for system details</li>
+              <li>Use the information for targeted attacks</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <button id="checkHeadersBtn" class="btn btn-primary">
+                <i class="fas fa-search"></i> Check Response Headers
+              </button>
+              <div id="headersResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario 2: Directory Listing -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-folder-open"></i> Scenario 2: Directory Listing</h3>
+            <span class="difficulty intermediate">Intermediate</span>
+          </div>
+          <p>Access directory listings to discover files and sensitive information on the server.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Endpoint:</h4>
+            <code>GET /secret</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Access the directory listing endpoint</li>
+              <li>Browse available secret files and directories</li>
+              <li>Identify sensitive configuration files</li>
+              <li>Access files that should be protected</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <button id="listFilesBtn" class="btn btn-primary">
+                <i class="fas fa-list"></i> List Secret Files
+              </button>
+              <div id="filesResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario 3: Default Credentials -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-key"></i> Scenario 3: Default Credentials</h3>
+            <span class="difficulty beginner">Beginner</span>
+          </div>
+          <p>Use default or common credentials to gain unauthorized access to the application.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Endpoint:</h4>
+            <code>POST /login</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Try common default credentials</li>
+              <li>Use admin/admin, admin/password, etc.</li>
+              <li>Check for hardcoded credentials</li>
+              <li>Gain elevated privileges</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <form id="defaultCredsForm">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" value="admin">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" value="admin123">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-sign-in-alt"></i> Try Login
+                </button>
+              </form>
+              <div id="loginResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prevention Strategies -->
+    <section class="prevention">
+      <h2><i class="fas fa-shield-alt"></i> Prevention Strategies</h2>
+      
+      <div class="prevention-grid">
+        <div class="prevention-card">
+          <h3><i class="fas fa-check-circle"></i> Secure Default Configurations</h3>
+          <ul>
+            <li>Change all default passwords and credentials</li>
+            <li>Disable unnecessary features and services</li>
+            <li>Use security-hardened configurations</li>
+            <li>Regularly audit configuration settings</li>
+          </ul>
+        </div>
+        
+        <div class="prevention-card">
+          <h3><i class="fas fa-eye-slash"></i> Information Hiding</h3>
+          <ul>
+            <li>Remove or modify default error messages</li>
+            <li>Disable directory listing</li>
+            <li>Hide server version information</li>
+            <li>Use generic error responses</li>
+          </ul>
+        </div>
+        
+        <div class="prevention-card">
+          <h3><i class="fas fa-tools"></i> Security Headers</h3>
+          <ul>
+            <li>Implement security headers (HSTS, CSP, etc.)</li>
+            <li>Remove sensitive headers (X-Powered-By, etc.)</li>
+            <li>Use HTTPS only</li>
+            <li>Configure proper CORS policies</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Code Examples -->
+    <section class="code-examples">
+      <h2><i class="fas fa-code"></i> Code Examples</h2>
+      
+      <div class="code-tabs">
+        <div class="tab-buttons">
+          <button class="tab-btn active" data-tab="vulnerable">Vulnerable Code</button>
+          <button class="tab-btn" data-tab="secure">Secure Code</button>
+        </div>
+        
+        <div class="tab-content">
+          <div id="vulnerable" class="tab-pane active">
+            <h3>Vulnerable Implementation</h3>
+            <pre><code>// WARNING: This code exposes sensitive information
+app.use((req, res, next) => {
+  // Exposing server information in headers
+  res.setHeader('X-Powered-By', 'Express.js');
+  res.setHeader('X-Server-Version', '1.0.0');
+  res.setHeader('X-Database-Type', 'SQLite');
+  next();
+});
+
+// Directory listing enabled
+app.get('/secret', (req, res) => {
+  const secretDir = path.join(__dirname, '../files/secret');
+  fs.readdir(secretDir, (err, files) => {
+    const fileList = files.map(file => ({
+      name: file,
+      path: `/secret/${file}`,
+      size: fs.statSync(path.join(secretDir, file)).size
+    }));
+    res.json(fileList); // Exposes all secret files
+  });
+});</code></pre>
+          </div>
+          
+          <div id="secure" class="tab-pane">
+            <h3>Secure Implementation</h3>
+            <pre><code>// Secure implementation with proper configuration
+app.use((req, res, next) => {
+  // Remove sensitive headers
+  res.removeHeader('X-Powered-By');
   
-  <h2>Public Information</h2>
-  <p>This content is intended to be public and is automatically loaded on page load.</p>
-  <pre id="publicOutput"></pre>
-  
-  <script src="./script.js"></script>
+  // Add security headers
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  next();
+});
+
+// Disable directory listing
+app.get('/secret', (req, res) => {
+  res.status(403).json({ error: 'Access denied' });
+});
+
+// Use environment variables for configuration
+const config = {
+  port: process.env.PORT || 3000,
+  database: process.env.DATABASE_URL,
+  secret: process.env.JWT_SECRET
+};</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Practice Exercise -->
+    <section class="practice-exercise">
+      <h2><i class="fas fa-graduation-cap"></i> Practice Exercise</h2>
+      
+      <div class="exercise-card">
+        <h3>Challenge: Information Gathering</h3>
+        <p>Your mission is to gather as much information as possible about the application and server configuration using the misconfigurations you've learned.</p>
+        
+        <div class="exercise-hints">
+          <h4>Tasks:</h4>
+          <ul>
+            <li>Find the server technology and version</li>
+            <li>Discover available files and directories</li>
+            <li>Identify any exposed configuration files</li>
+            <li>Find default credentials that work</li>
+          </ul>
+        </div>
+        
+        <div class="exercise-form">
+          <form id="exerciseForm">
+            <label for="exerciseInput">What server technology is being used?</label>
+            <input type="text" id="exerciseInput" placeholder="e.g., Express.js">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-rocket"></i> Submit Answer
+            </button>
+          </form>
+          <div id="exerciseResult" class="result-area"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progress Tracking -->
+    <section class="progress-tracking">
+      <h2><i class="fas fa-chart-line"></i> Your Progress</h2>
+      
+      <div class="progress-card">
+        <div class="progress-item">
+          <span>Information Disclosure</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="headersProgress" style="width: 0%"></div>
+          </div>
+        </div>
+        
+        <div class="progress-item">
+          <span>Directory Listing</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="filesProgress" style="width: 0%"></div>
+          </div>
+        </div>
+        
+        <div class="progress-item">
+          <span>Default Credentials</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="credsProgress" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2024 OWASP Top 10 Learning Platform. For educational purposes only.</p>
+      <p><strong>Warning:</strong> This platform contains intentionally vulnerable code. Do not deploy in production environments.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>

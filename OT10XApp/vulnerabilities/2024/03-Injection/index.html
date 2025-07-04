@@ -3,22 +3,428 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SQL Injection Demonstration</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>A03:2021 - Injection | OWASP Top 10 Learning</title>
+  <link rel="stylesheet" href="../../../styles/styles.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <h1 title="%' OR '1'='1' -- ">SQL Injection Demonstration</h1>
-  <button onclick="window.location.href='/'">Back to Home</button>
-  <p>This page demonstrates a SQL Injection vulnerability by accepting unsanitized input to query a database.</p>
+  <header class="header">
+    <div class="container">
+      <h1><i class="fas fa-database"></i> A03:2021 - Injection</h1>
+      <p class="subtitle">Learn how injection attacks manipulate application logic</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <nav class="nav-back">
+      <a href="../../../index.html">
+        <i class="fas fa-arrow-left"></i> Back to OWASP Top 10
+      </a>
+    </nav>
+
+    <!-- Learning Overview -->
+    <section class="learning-overview">
+      <div class="overview-card">
+        <h2><i class="fas fa-info-circle"></i> What are Injection Attacks?</h2>
+        <p>Injection attacks occur when untrusted data is sent to an interpreter as part of a command or query. The attacker's hostile data can trick the interpreter into executing unintended commands or accessing unauthorized data. Injection vulnerabilities are among the most dangerous and common web application security flaws.</p>
+        
+        <div class="key-points">
+          <h3>Key Concepts:</h3>
+          <ul>
+            <li><strong>SQL Injection:</strong> Manipulating database queries with malicious input</li>
+            <li><strong>Command Injection:</strong> Executing system commands through application input</li>
+            <li><strong>NoSQL Injection:</strong> Exploiting NoSQL database queries</li>
+            <li><strong>LDAP Injection:</strong> Manipulating LDAP directory queries</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Attack Scenarios -->
+    <section class="attack-scenarios">
+      <h2><i class="fas fa-bug"></i> Attack Scenarios</h2>
+      
+      <div class="scenario-grid">
+        <!-- Scenario 1: SQL Injection -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-database"></i> Scenario 1: SQL Injection</h3>
+            <span class="difficulty beginner">Beginner</span>
+          </div>
+          <p>SQL injection occurs when user input is directly concatenated into SQL queries without proper sanitization, allowing attackers to manipulate database operations.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Endpoint:</h4>
+            <code>GET /search?query={user_input}</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Enter malicious SQL code in search input</li>
+              <li>Bypass authentication with OR conditions</li>
+              <li>Extract sensitive data from database</li>
+              <li>Modify or delete database records</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <form id="sqlInjectionForm">
+                <label for="searchQuery">Search for users:</label>
+                <input type="text" id="searchQuery" name="searchQuery" placeholder="e.g., Alice" required>
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-search"></i> Search
+                </button>
+              </form>
+              <div class="injection-examples">
+                <h5>💡 SQL Injection Examples:</h5>
+                <div class="example-grid">
+                  <div class="example-item">
+                    <strong>Bypass Login:</strong>
+                    <code>' OR '1'='1</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>Extract All Users:</strong>
+                    <code>' UNION SELECT * FROM users --</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>Drop Table:</strong>
+                    <code'; DROP TABLE users; --</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>Comment Out:</strong>
+                    <code>' --</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>Union Attack:</strong>
+                    <code>' UNION SELECT username,password FROM users --</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>Boolean Based:</strong>
+                    <code>' AND 1=1 --</code>
+                  </div>
+                </div>
+              </div>
+              <div id="sqlInjectionResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario 2: Command Injection -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-terminal"></i> Scenario 2: Command Injection</h3>
+            <span class="difficulty intermediate">Intermediate</span>
+          </div>
+          <p>Command injection occurs when user input is passed to system commands without proper validation, allowing attackers to execute arbitrary commands on the server.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Endpoint:</h4>
+            <code>POST /api/system/execute</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Identify command execution points</li>
+              <li>Inject malicious system commands</li>
+              <li>Execute commands with different operators</li>
+              <li>Gain unauthorized system access</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <form id="commandInjectionForm">
+                <label for="systemCommand">System Command:</label>
+                <input type="text" id="systemCommand" name="systemCommand" placeholder="e.g., ls -la" required>
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-terminal"></i> Execute
+                </button>
+              </form>
+              <div class="injection-examples">
+                <h5>💡 Command Injection Examples:</h5>
+                <div class="example-grid">
+                  <div class="example-item">
+                    <strong>List Files:</strong>
+                    <code>ls -la</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>View Processes:</strong>
+                    <code>ps aux</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>Network Info:</strong>
+                    <code>ifconfig</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>System Info:</strong>
+                    <code>uname -a</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>Directory Traversal:</strong>
+                    <code>cat /etc/passwd</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>Reverse Shell:</strong>
+                    <code>nc -l 4444</code>
+                  </div>
+                </div>
+              </div>
+              <div id="commandInjectionResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario 3: NoSQL Injection -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-server"></i> Scenario 3: NoSQL Injection</h3>
+            <span class="difficulty advanced">Advanced</span>
+          </div>
+          <p>NoSQL injection targets applications that use NoSQL databases like MongoDB, exploiting query operators and JavaScript injection to manipulate data retrieval.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Endpoint:</h4>
+            <code>POST /api/nosql/search</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Identify NoSQL query operators</li>
+              <li>Use JavaScript injection techniques</li>
+              <li>Manipulate query conditions</li>
+              <li>Bypass authentication and access control</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <form id="nosqlInjectionForm">
+                <label for="nosqlQuery">NoSQL Query:</label>
+                <input type="text" id="nosqlQuery" name="nosqlQuery" placeholder="e.g., admin" required>
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-search"></i> Query
+                </button>
+              </form>
+              <div class="injection-examples">
+                <h5>💡 NoSQL Injection Examples:</h5>
+                <div class="example-grid">
+                  <div class="example-item">
+                    <strong>Bypass Auth:</strong>
+                    <code>{"$ne": null}</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>Regex Attack:</strong>
+                    <code>{"$regex": ".*"}</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>JavaScript:</strong>
+                    <code>{"$where": "1==1"}</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>Array Operator:</strong>
+                    <code>{"$in": ["admin", "user"]}</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>Exists Check:</strong>
+                    <code>{"$exists": true}</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>Type Check:</strong>
+                    <code>{"$type": "string"}</code>
+                  </div>
+                </div>
+              </div>
+              <div id="nosqlInjectionResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prevention Strategies -->
+    <section class="prevention">
+      <h2><i class="fas fa-shield-alt"></i> Prevention Strategies</h2>
+      
+      <div class="prevention-grid">
+        <div class="prevention-card">
+          <h3><i class="fas fa-database"></i> SQL Injection Prevention</h3>
+          <ul>
+            <li>Use parameterized queries (prepared statements)</li>
+            <li>Implement input validation and sanitization</li>
+            <li>Use ORM frameworks with built-in protection</li>
+            <li>Apply principle of least privilege to database users</li>
+          </ul>
+        </div>
+        
+        <div class="prevention-card">
+          <h3><i class="fas fa-terminal"></i> Command Injection Prevention</h3>
+          <ul>
+            <li>Avoid command execution when possible</li>
+            <li>Use built-in functions instead of system calls</li>
+            <li>Validate and sanitize all command inputs</li>
+            <li>Implement proper access controls</li>
+          </ul>
+        </div>
+        
+        <div class="prevention-card">
+          <h3><i class="fas fa-server"></i> NoSQL Injection Prevention</h3>
+          <ul>
+            <li>Use parameterized queries for NoSQL databases</li>
+            <li>Disable JavaScript execution in queries</li>
+            <li>Validate input types and structures</li>
+            <li>Use database-specific security features</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Code Examples -->
+    <section class="code-examples">
+      <h2><i class="fas fa-code"></i> Code Examples</h2>
+      
+      <div class="code-tabs">
+        <div class="tab-buttons">
+          <button class="tab-btn active" data-tab="vulnerable">Vulnerable Code</button>
+          <button class="tab-btn" data-tab="secure">Secure Code</button>
+        </div>
+        
+        <div class="tab-content">
+          <div id="vulnerable" class="tab-pane active">
+            <h3>Vulnerable Implementation</h3>
+            <pre><code>// WARNING: This code is vulnerable to SQL injection
+app.get('/search', (req, res) => {
+  const query = req.query.query;
+  // VULNERABLE: Direct string concatenation
+  const sql = `SELECT * FROM users WHERE username LIKE '%${query}%' OR email LIKE '%${query}%'`;
   
-  <form id="searchForm">
-    <label for="query">Enter search term:</label>
-    <input type="text" id="query" name="query" placeholder="e.g., Alice" required>
-    <button type="submit">Search</button>
-  </form>
+  db.all(sql, [], (err, rows) => {
+    if (err) {
+      return res.status(500).send('Database error');
+    }
+    res.send(rows.length ? JSON.stringify(rows, null, 2) : 'No results found');
+  });
+});
+
+// WARNING: This code is vulnerable to command injection
+app.post('/api/system/execute', (req, res) => {
+  const { command } = req.body;
   
-  <pre id="results"></pre>
+  // VULNERABLE: Direct command execution
+  const { exec } = require('child_process');
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+    res.json({ output: stdout, error: stderr });
+  });
+});</code></pre>
+          </div>
+          
+          <div id="secure" class="tab-pane">
+            <h3>Secure Implementation</h3>
+            <pre><code>// SECURE: Using parameterized queries
+app.get('/search', (req, res) => {
+  const query = req.query.query;
   
-  <script src="./script.js"></script>
+  // Validate input
+  if (!query || typeof query !== 'string') {
+    return res.status(400).json({ error: 'Invalid query parameter' });
+  }
+  
+  // SECURE: Parameterized query prevents SQL injection
+  const sql = `SELECT id, username, email FROM users WHERE username LIKE ? OR email LIKE ?`;
+  const searchTerm = `%${query}%`;
+  
+  db.all(sql, [searchTerm, searchTerm], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ error: 'Database error' });
+    }
+    res.json({ results: rows });
+  });
+});
+
+// SECURE: Avoiding command execution
+app.post('/api/system/status', (req, res) => {
+  // SECURE: Use built-in Node.js functions instead of system commands
+  const os = require('os');
+  
+  const systemInfo = {
+    platform: os.platform(),
+    arch: os.arch(),
+    uptime: os.uptime(),
+    memory: os.freemem(),
+    cpu: os.cpus()[0].model
+  };
+  
+  res.json(systemInfo);
+});</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Practice Exercise -->
+    <section class="practice-exercise">
+      <h2><i class="fas fa-graduation-cap"></i> Practice Exercise</h2>
+      
+      <div class="exercise-card">
+        <h3>Challenge: Extract All User Data</h3>
+        <p>Your mission is to use SQL injection to extract all user data from the database. The search functionality is vulnerable to SQL injection attacks. Try different injection techniques to bypass the search and retrieve all user records.</p>
+        
+        <div class="exercise-hints">
+          <h4>Hints:</h4>
+          <ul>
+            <li>Use UNION-based attacks to combine queries</li>
+            <li>Try commenting out the rest of the query with <code>--</code></li>
+            <li>Use <code>' OR '1'='1</code> to make the WHERE clause always true</li>
+            <li>Combine multiple techniques for better results</li>
+          </ul>
+        </div>
+        
+        <div class="exercise-form">
+          <form id="exerciseForm">
+            <label for="exerciseInput">Enter your SQL injection payload:</label>
+            <input type="text" id="exerciseInput" placeholder="e.g., ' OR '1'='1">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-rocket"></i> Submit Attack
+            </button>
+          </form>
+          <div id="exerciseResult" class="result-area"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progress Tracking -->
+    <section class="progress-tracking">
+      <h2><i class="fas fa-chart-line"></i> Your Progress</h2>
+      
+      <div class="progress-card">
+        <div class="progress-item">
+          <span>SQL Injection</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="sqlProgress" style="width: 0%"></div>
+          </div>
+        </div>
+        
+        <div class="progress-item">
+          <span>Command Injection</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="commandProgress" style="width: 0%"></div>
+          </div>
+        </div>
+        
+        <div class="progress-item">
+          <span>NoSQL Injection</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="nosqlProgress" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2024 OWASP Top 10 Learning Platform. For educational purposes only.</p>
+      <p><strong>Warning:</strong> This platform contains intentionally vulnerable code. Do not deploy in production environments.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>

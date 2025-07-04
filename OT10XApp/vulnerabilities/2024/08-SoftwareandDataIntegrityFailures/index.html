@@ -3,22 +3,395 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Software and Data Integrity Failures</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>A08:2021 - Software and Data Integrity Failures | OWASP Top 10 Learning</title>
+  <link rel="stylesheet" href="../../../styles/styles.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <h1>Software and Data Integrity Failures</h1>
-  <button onclick="window.location.href='/'">Back to Home</button>
-  <p>
-    This demonstration shows a failure to verify the integrity of a software update.
-    The update is fetched from an untrusted source and executed without checking its integrity,
-    potentially allowing malicious code to run.
-  </p>
-  <p>Click the button below to simulate applying an unverified update.</p>
-  
-  <button id="applyUpdateBtn">Apply Update</button>
-  <pre id="updateOutput"></pre>
-  
-  <script src="./script.js"></script>
+  <header class="header">
+    <div class="container">
+      <h1><i class="fas fa-shield-alt"></i> A08:2021 - Software and Data Integrity Failures</h1>
+      <p class="subtitle">Learn about software update integrity and supply chain attacks</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <nav class="nav-back">
+      <a href="../../../index.html">
+        <i class="fas fa-arrow-left"></i> Back to OWASP Top 10
+      </a>
+    </nav>
+
+    <!-- Learning Overview -->
+    <section class="learning-overview">
+      <div class="overview-card">
+        <h2><i class="fas fa-info-circle"></i> What are Software and Data Integrity Failures?</h2>
+        <p>Software and data integrity failures occur when applications fail to verify the integrity of software updates, critical data, and CI/CD pipelines. This includes supply chain attacks, unverified software updates, and compromised build processes that can lead to malicious code execution.</p>
+        
+        <div class="key-points">
+          <h3>Key Concepts:</h3>
+          <ul>
+            <li><strong>Supply Chain Attacks:</strong> Compromising software dependencies and build processes</li>
+            <li><strong>Unverified Updates:</strong> Installing software without integrity verification</li>
+            <li><strong>CI/CD Compromise:</strong> Malicious code injection into build pipelines</li>
+            <li><strong>Dependency Poisoning:</strong> Compromising third-party libraries and packages</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Attack Scenarios -->
+    <section class="attack-scenarios">
+      <h2><i class="fas fa-bug"></i> Attack Scenarios</h2>
+      
+      <div class="scenario-grid">
+        <!-- Scenario 1: Unverified Software Updates -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-download"></i> Scenario 1: Unverified Software Updates</h3>
+            <span class="difficulty beginner">Beginner</span>
+          </div>
+          <p>Exploit applications that download and install software updates without verifying their integrity.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Component:</h4>
+            <code>Software update mechanism without integrity verification</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Intercept software update requests</li>
+              <li>Replace legitimate updates with malicious versions</li>
+              <li>Exploit lack of signature verification</li>
+              <li>Execute malicious code through compromised updates</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <button id="checkForUpdatesBtn" class="btn btn-primary">
+                <i class="fas fa-sync-alt"></i> Check for Updates
+              </button>
+              <button id="downloadUpdateBtn" class="btn btn-warning">
+                <i class="fas fa-download"></i> Download Update
+              </button>
+              <button id="installUpdateBtn" class="btn btn-danger">
+                <i class="fas fa-rocket"></i> Install Update
+              </button>
+              
+              <div class="update-sources">
+                <h5>Update Sources:</h5>
+                <div class="source-buttons">
+                  <button type="button" class="btn btn-sm btn-secondary" onclick="setUpdateSource('official')">
+                    Official Source
+                  </button>
+                  <button type="button" class="btn btn-sm btn-secondary" onclick="setUpdateSource('mirror')">
+                    Mirror Site
+                  </button>
+                  <button type="button" class="btn btn-sm btn-secondary" onclick="setUpdateSource('untrusted')">
+                    Untrusted Source
+                  </button>
+                </div>
+              </div>
+              
+              <div id="updateResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario 2: Supply Chain Attack -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-link"></i> Scenario 2: Supply Chain Attack</h3>
+            <span class="difficulty intermediate">Intermediate</span>
+          </div>
+          <p>Exploit compromised dependencies and build processes to inject malicious code.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Component:</h4>
+            <code>Compromised dependencies and build pipeline</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Compromise a popular package repository</li>
+              <li>Inject malicious code into dependencies</li>
+              <li>Exploit automatic dependency updates</li>
+              <li>Execute malicious code in target applications</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <button id="scanDependenciesBtn" class="btn btn-primary">
+                <i class="fas fa-search"></i> Scan Dependencies
+              </button>
+              <button id="installDependencyBtn" class="btn btn-warning">
+                <i class="fas fa-box"></i> Install Dependency
+              </button>
+              <button id="buildProjectBtn" class="btn btn-danger">
+                <i class="fas fa-cogs"></i> Build Project
+              </button>
+              <div id="supplyChainResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario 3: CI/CD Pipeline Compromise -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-code-branch"></i> Scenario 3: CI/CD Pipeline Compromise</h3>
+            <span class="difficulty advanced">Advanced</span>
+          </div>
+          <p>Exploit continuous integration and deployment pipelines to inject malicious code.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Component:</h4>
+            <code>Compromised build and deployment processes</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Compromise CI/CD credentials</li>
+              <li>Modify build scripts and configurations</li>
+              <li>Inject malicious code during build process</li>
+              <li>Deploy compromised applications automatically</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <button id="triggerBuildBtn" class="btn btn-primary">
+                <i class="fas fa-play"></i> Trigger Build
+              </button>
+              <button id="deployAppBtn" class="btn btn-warning">
+                <i class="fas fa-cloud-upload-alt"></i> Deploy Application
+              </button>
+              <button id="verifyDeploymentBtn" class="btn btn-danger">
+                <i class="fas fa-check-circle"></i> Verify Deployment
+              </button>
+              <div id="cicdResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prevention Strategies -->
+    <section class="prevention">
+      <h2><i class="fas fa-shield-alt"></i> Prevention Strategies</h2>
+      
+      <div class="prevention-grid">
+        <div class="prevention-card">
+          <h3><i class="fas fa-signature"></i> Digital Signatures</h3>
+          <ul>
+            <li>Verify software updates with digital signatures</li>
+            <li>Use code signing certificates</li>
+            <li>Implement signature verification in update process</li>
+            <li>Verify checksums and hashes</li>
+          </ul>
+        </div>
+        
+        <div class="prevention-card">
+          <h3><i class="fas fa-lock"></i> Secure Supply Chain</h3>
+          <ul>
+            <li>Use trusted package repositories</li>
+            <li>Implement dependency scanning</li>
+            <li>Pin dependency versions</li>
+            <li>Monitor for suspicious changes</li>
+          </ul>
+        </div>
+        
+        <div class="prevention-card">
+          <h3><i class="fas fa-shield-alt"></i> CI/CD Security</h3>
+          <ul>
+            <li>Secure CI/CD credentials</li>
+            <li>Implement build verification</li>
+            <li>Use immutable artifacts</li>
+            <li>Regular security audits</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Code Examples -->
+    <section class="code-examples">
+      <h2><i class="fas fa-code"></i> Code Examples</h2>
+      
+      <div class="code-tabs">
+        <div class="tab-buttons">
+          <button class="tab-btn active" data-tab="vulnerable">Vulnerable Code</button>
+          <button class="tab-btn" data-tab="secure">Secure Code</button>
+        </div>
+        
+        <div class="tab-content">
+          <div id="vulnerable" class="tab-pane active">
+            <h3>Vulnerable Implementation</h3>
+            <pre><code>// WARNING: No integrity verification
+function downloadUpdate(url) {
+    const update = fetch(url).then(res => res.blob());
+    return update; // No signature verification!
+}
+
+// Vulnerable dependency installation
+function installDependency(packageName) {
+    const command = `npm install ${packageName}`;
+    exec(command); // No verification of package integrity
+}
+
+// Insecure CI/CD pipeline
+function deployApplication() {
+    const buildScript = fs.readFileSync('build.sh');
+    exec(buildScript); // No verification of build script
+}
+
+// Unverified software update
+app.post('/update', (req, res) => {
+    const updateUrl = req.body.updateUrl;
+    downloadUpdate(updateUrl).then(update => {
+        installUpdate(update); // No integrity check!
+        res.json({ success: true });
+    });
+});
+
+// Vulnerable package.json
+{
+  "dependencies": {
+    "some-package": "*" // No version pinning!
+  }
+}</code></pre>
+          </div>
+          
+          <div id="secure" class="tab-pane">
+            <h3>Secure Implementation</h3>
+            <pre><code>// Secure update with signature verification
+async function downloadUpdate(url, expectedSignature) {
+    const update = await fetch(url);
+    const updateBuffer = await update.arrayBuffer();
+    const updateHash = crypto.createHash('sha256').update(updateBuffer).digest('hex');
+    
+    if (updateHash !== expectedSignature) {
+        throw new Error('Update signature verification failed');
+    }
+    
+    return updateBuffer;
+}
+
+// Secure dependency installation
+async function installDependency(packageName, expectedChecksum) {
+    const packageInfo = await fetch(`https://registry.npmjs.org/${packageName}`);
+    const packageData = await packageInfo.json();
+    
+    // Verify package integrity
+    const integrity = packageData.dist.integrity;
+    if (!verifyIntegrity(packageData, integrity)) {
+        throw new Error('Package integrity verification failed');
+    }
+    
+    const command = `npm install ${packageName}@${packageData.version}`;
+    exec(command);
+}
+
+// Secure CI/CD pipeline
+function deployApplication() {
+    const buildScript = fs.readFileSync('build.sh');
+    const scriptHash = crypto.createHash('sha256').update(buildScript).digest('hex');
+    
+    if (scriptHash !== EXPECTED_BUILD_SCRIPT_HASH) {
+        throw new Error('Build script integrity check failed');
+    }
+    
+    exec(buildScript);
+}
+
+// Secure software update endpoint
+app.post('/update', async (req, res) => {
+    const { updateUrl, expectedSignature } = req.body;
+    
+    try {
+        const update = await downloadUpdate(updateUrl, expectedSignature);
+        await installUpdate(update);
+        res.json({ success: true });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
+// Secure package.json with pinned versions
+{
+  "dependencies": {
+    "some-package": "1.2.3" // Pinned version
+  },
+  "resolutions": {
+    "some-package": "1.2.3" // Force specific version
+  }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Practice Exercise -->
+    <section class="practice-exercise">
+      <h2><i class="fas fa-graduation-cap"></i> Practice Exercise</h2>
+      
+      <div class="exercise-card">
+        <h3>Challenge: Identify Integrity Failures</h3>
+        <p>Your mission is to identify and exploit software integrity vulnerabilities in a simulated application. Use the tools and techniques you've learned to find unverified updates and supply chain weaknesses.</p>
+        
+        <div class="exercise-hints">
+          <h4>Tasks:</h4>
+          <ul>
+            <li>Test unverified software updates</li>
+            <li>Analyze dependency integrity</li>
+            <li>Identify CI/CD pipeline vulnerabilities</li>
+            <li>Exploit supply chain weaknesses</li>
+          </ul>
+        </div>
+        
+        <div class="exercise-form">
+          <form id="exerciseForm">
+            <label for="exerciseInput">What is the most common type of supply chain attack?</label>
+            <input type="text" id="exerciseInput" placeholder="e.g., dependency poisoning">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-rocket"></i> Submit Answer
+            </button>
+          </form>
+          <div id="exerciseResult" class="result-area"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progress Tracking -->
+    <section class="progress-tracking">
+      <h2><i class="fas fa-chart-line"></i> Your Progress</h2>
+      
+      <div class="progress-card">
+        <div class="progress-item">
+          <span>Unverified Updates</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="updateProgress" style="width: 0%"></div>
+          </div>
+        </div>
+        
+        <div class="progress-item">
+          <span>Supply Chain Attacks</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="supplyChainProgress" style="width: 0%"></div>
+          </div>
+        </div>
+        
+        <div class="progress-item">
+          <span>CI/CD Compromise</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="cicdProgress" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2024 OWASP Top 10 Learning Platform. For educational purposes only.</p>
+      <p><strong>Warning:</strong> This platform contains intentionally vulnerable code. Do not deploy in production environments.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>

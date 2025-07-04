@@ -3,19 +3,511 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Insecure Design Vulnerability</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>A04:2021 - Insecure Design | OWASP Top 10 Learning</title>
+  <link rel="stylesheet" href="../../../styles/styles.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <h1 title="document.getElementById('adminCredentials')">Insecure Design Vulnerability</h1>
-  <button onclick="window.location.href='/'">Back to Home</button>
-  <p>This page demonstrates insecure design by exposing sensitive information on the client-side.</p>
+  <header class="header">
+    <div class="container">
+      <h1><i class="fas fa-exclamation-triangle"></i> A04:2021 - Insecure Design</h1>
+      <p class="subtitle">Learn how design flaws create fundamental security weaknesses</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <nav class="nav-back">
+      <a href="../../../index.html">
+        <i class="fas fa-arrow-left"></i> Back to OWASP Top 10
+      </a>
+    </nav>
+
+    <!-- Learning Overview -->
+    <section class="learning-overview">
+      <div class="overview-card">
+        <h2><i class="fas fa-info-circle"></i> What is Insecure Design?</h2>
+        <p>Insecure Design is a broad category representing different weaknesses, expressed as "missing or ineffective control design." Insecure design is not the source of all other Top 10 risk categories. There is a difference between insecure design and insecure implementation. We differentiate between design flaws and implementation defects for a reason, they have different root causes and remediation.</p>
+        
+        <div class="key-points">
+          <h3>Key Concepts:</h3>
+          <ul>
+            <li><strong>Design Flaws:</strong> Fundamental architectural weaknesses that cannot be fixed by proper implementation</li>
+            <li><strong>Missing Controls:</strong> Security controls that should be present but are completely absent</li>
+            <li><strong>Business Logic Flaws:</strong> Vulnerabilities in application business rules and workflows</li>
+            <li><strong>Threat Modeling Failures:</strong> Inadequate analysis of potential attack vectors</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Attack Scenarios -->
+    <section class="attack-scenarios">
+      <h2><i class="fas fa-bug"></i> Attack Scenarios</h2>
+      
+      <div class="scenario-grid">
+        <!-- Scenario 1: Client-Side Security Controls -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-desktop"></i> Scenario 1: Client-Side Security Controls</h3>
+            <span class="difficulty beginner">Beginner</span>
+          </div>
+          <p>Relying on client-side security controls is a fundamental design flaw. Attackers can easily bypass client-side validation, authentication, and authorization checks by modifying the frontend code or making direct API calls.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Design:</h4>
+            <code>Client-side authentication and authorization checks</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Inspect client-side code for security logic</li>
+              <li>Bypass client-side validation</li>
+              <li>Modify frontend authentication checks</li>
+              <li>Access unauthorized resources directly</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <div class="insecure-design-example">
+                <h5>🔓 Exposed Sensitive Information:</h5>
+                <div class="exposed-data">
+                  <p><strong>Public Message:</strong> Welcome to our secure application!</p>
+                  <p><strong>Admin Credentials:</strong> <span id="adminCredentials" class="exposed-credentials"></span></p>
+                  <p><strong>API Keys:</strong> <span id="apiKeys" class="exposed-credentials"></span></p>
+                  <p><strong>Database Connection:</strong> <span id="dbConnection" class="exposed-credentials"></span></p>
+                </div>
+                <div class="design-flaw-note">
+                  <h5>⚠️ Design Flaw:</h5>
+                  <p>Sensitive information is hardcoded in client-side JavaScript and exposed to all users. This is a fundamental design flaw that cannot be fixed by proper implementation.</p>
+                </div>
+              </div>
+              
+              <div class="client-side-demo">
+                <h5>🔓 Client-Side Authentication Demo:</h5>
+                <form id="clientAuthForm">
+                  <label for="userRole">Select Role:</label>
+                  <select id="userRole" name="userRole">
+                    <option value="user">Regular User</option>
+                    <option value="admin">Administrator</option>
+                    <option value="superadmin">Super Administrator</option>
+                  </select>
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i> Access Admin Panel
+                  </button>
+                </form>
+                <div id="clientAuthResult" class="result-area"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario 2: Business Logic Flaws -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-cogs"></i> Scenario 2: Business Logic Flaws</h3>
+            <span class="difficulty intermediate">Intermediate</span>
+          </div>
+          <p>Business logic flaws occur when application workflows and business rules can be manipulated to achieve unintended outcomes. These flaws often involve race conditions, parameter manipulation, and workflow bypasses.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Endpoint:</h4>
+            <code>POST /api/orders</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Identify business logic workflows</li>
+              <li>Manipulate request parameters</li>
+              <li>Exploit race conditions</li>
+              <li>Bypass business rules</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <form id="businessLogicForm">
+                <label for="productId">Product ID:</label>
+                <input type="number" id="productId" name="productId" value="1" min="1" max="10" required>
+                
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" value="1" min="1" max="100" required>
+                
+                <label for="userId">User ID:</label>
+                <input type="number" id="userId" name="userId" value="2" min="1" max="10" required>
+                
+                <label for="totalPrice">Total Price (USD):</label>
+                <input type="number" id="totalPrice" name="totalPrice" value="999.99" step="0.01" min="0" required>
+                
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-shopping-cart"></i> Create Order
+                </button>
+              </form>
+              
+              <div class="business-logic-examples">
+                <h5>💡 Business Logic Attack Examples:</h5>
+                <div class="example-grid">
+                  <div class="example-item">
+                    <strong>Price Manipulation:</strong>
+                    <code>Set totalPrice to 0.01</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>Quantity Overflow:</strong>
+                    <code>Set quantity to -1</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>User ID Spoofing:</strong>
+                    <code>Change userId to 1 (admin)</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>Race Condition:</strong>
+                    <code>Submit multiple orders rapidly</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>Parameter Pollution:</strong>
+                    <code>Send duplicate parameters</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>Workflow Bypass:</strong>
+                    <code>Skip validation steps</code>
+                  </div>
+                </div>
+              </div>
+              <div id="businessLogicResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario 3: Missing Security Controls -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-shield-alt"></i> Scenario 3: Missing Security Controls</h3>
+            <span class="difficulty advanced">Advanced</span>
+          </div>
+          <p>Missing security controls represent fundamental design flaws where essential security mechanisms are completely absent from the application architecture. This includes missing authentication, authorization, input validation, and output encoding.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Endpoints:</h4>
+            <code>GET /api/users/* (No authorization)</code><br>
+            <code>POST /api/data (No input validation)</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Identify missing security controls</li>
+              <li>Exploit lack of authentication</li>
+              <li>Bypass missing authorization</li>
+              <li>Inject malicious input</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <div class="missing-controls-demo">
+                <h5>🔓 Missing Authentication Control:</h5>
+                <form id="missingAuthForm">
+                  <label for="targetUserId">Access User Profile (No Auth Required):</label>
+                  <input type="number" id="targetUserId" name="targetUserId" value="1" min="1" max="10" required>
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-user"></i> Get User Profile
+                  </button>
+                </form>
+                
+                <h5>🔓 Missing Input Validation:</h5>
+                <form id="missingValidationForm">
+                  <label for="userInput">Submit Data (No Validation):</label>
+                  <input type="text" id="userInput" name="userInput" placeholder="Enter any data..." required>
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> Submit Data
+                  </button>
+                </form>
+              </div>
+              
+              <div class="missing-controls-examples">
+                <h5>💡 Missing Controls Examples:</h5>
+                <div class="example-grid">
+                  <div class="example-item">
+                    <strong>No Authentication:</strong>
+                    <code>Access any user profile</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>No Authorization:</strong>
+                    <code>Modify other users' data</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>No Input Validation:</strong>
+                    <code>Inject malicious scripts</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>No Rate Limiting:</strong>
+                    <code>Flood the API</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>No Output Encoding:</strong>
+                    <code>XSS attacks</code>
+                  </div>
+                  <div class="example-item">
+                    <strong>No CSRF Protection:</strong>
+                    <code>Cross-site request forgery</code>
+                  </div>
+                </div>
+              </div>
+              <div id="missingControlsResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prevention Strategies -->
+    <section class="prevention">
+      <h2><i class="fas fa-shield-alt"></i> Prevention Strategies</h2>
+      
+      <div class="prevention-grid">
+        <div class="prevention-card">
+          <h3><i class="fas fa-architecture"></i> Secure Design Principles</h3>
+          <ul>
+            <li>Implement security controls on the server-side only</li>
+            <li>Use threat modeling during design phase</li>
+            <li>Apply defense in depth principles</li>
+            <li>Design for failure and graceful degradation</li>
+          </ul>
+        </div>
+        
+        <div class="prevention-card">
+          <h3><i class="fas fa-cogs"></i> Business Logic Security</h3>
+          <ul>
+            <li>Validate all business rules server-side</li>
+            <li>Implement proper state management</li>
+            <li>Use atomic transactions for critical operations</li>
+            <li>Test for race conditions and edge cases</li>
+          </ul>
+        </div>
+        
+        <div class="prevention-card">
+          <h3><i class="fas fa-check-circle"></i> Security Controls</h3>
+          <ul>
+            <li>Implement comprehensive authentication</li>
+            <li>Use proper authorization mechanisms</li>
+            <li>Validate and sanitize all inputs</li>
+            <li>Encode all outputs appropriately</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Code Examples -->
+    <section class="code-examples">
+      <h2><i class="fas fa-code"></i> Code Examples</h2>
+      
+      <div class="code-tabs">
+        <div class="tab-buttons">
+          <button class="tab-btn active" data-tab="insecure">Insecure Design</button>
+          <button class="tab-btn" data-tab="secure">Secure Design</button>
+        </div>
+        
+        <div class="tab-content">
+          <div id="insecure" class="tab-pane active">
+            <h3>Insecure Design Examples</h3>
+            <pre><code>// WARNING: Client-side security controls (INVALID)
+// This is a fundamental design flaw
+const adminCredentials = {
+  username: "admin",
+  password: "SuperSecret123"  // Exposed in client-side code!
+};
+
+// Client-side authentication check (INVALID)
+function checkUserRole() {
+  const userRole = document.getElementById('userRole').value;
+  if (userRole === 'admin') {
+    showAdminPanel(); // This can be bypassed!
+  }
+}
+
+// Missing server-side validation (INVALID)
+app.post('/api/orders', (req, res) => {
+  const { product_id, quantity, user_id, total_price } = req.body;
   
-  <div class="info">
-    <p>Public Message: Welcome to our secure application!</p>
-    <p>Admin Credentials: <span id="adminCredentials"></span></p>
-  </div>
+  // WARNING: No validation of total_price - client can manipulate
+  const sql = `INSERT INTO orders (user_id, product_id, quantity, total_price) 
+               VALUES (?, ?, ?, ?)`;
   
-  <script src="./script.js"></script>
+  db.run(sql, [user_id, product_id, quantity, total_price], function(err) {
+    if (err) {
+      return res.status(500).json({ error: 'Order creation failed' });
+    }
+    res.json({ 
+      message: 'Order created successfully',
+      totalPrice: total_price // Client can set this to any value!
+    });
+  });
+});
+
+// Missing authentication control (INVALID)
+app.get('/api/users/:id', (req, res) => {
+  const userId = req.params.id;
+  // WARNING: No authentication check - anyone can access any user
+  const sql = `SELECT * FROM users WHERE id = ?`;
+  
+  db.get(sql, [userId], (err, user) => {
+    if (err) {
+      return res.status(500).json({ error: 'Database error' });
+    }
+    res.json(user); // Exposes sensitive user data!
+  });
+});</code></pre>
+          </div>
+          
+          <div id="secure" class="tab-pane">
+            <h3>Secure Design Examples</h3>
+            <pre><code>// SECURE: Server-side authentication and authorization
+app.post('/api/orders', (req, res) => {
+  // SECURE: Verify user authentication
+  const sessionId = req.headers['x-session-id'];
+  if (!sessionId || !sessions[sessionId]) {
+    return res.status(401).json({ error: 'Authentication required' });
+  }
+  
+  const user = sessions[sessionId];
+  const { product_id, quantity } = req.body;
+  
+  // SECURE: Calculate price server-side
+  const sql = `SELECT price FROM products WHERE id = ?`;
+  db.get(sql, [product_id], (err, product) => {
+    if (err || !product) {
+      return res.status(400).json({ error: 'Invalid product' });
+    }
+    
+    // SECURE: Server-side price calculation
+    const totalPrice = product.price * quantity;
+    
+    // SECURE: Validate business rules
+    if (quantity <= 0 || quantity > 100) {
+      return res.status(400).json({ error: 'Invalid quantity' });
+    }
+    
+    // SECURE: Use user ID from session, not client input
+    const orderSql = `INSERT INTO orders (user_id, product_id, quantity, total_price) 
+                      VALUES (?, ?, ?, ?)`;
+    
+    db.run(orderSql, [user.userId, product_id, quantity, totalPrice], function(err) {
+      if (err) {
+        return res.status(500).json({ error: 'Order creation failed' });
+      }
+      res.json({ 
+        message: 'Order created successfully',
+        orderId: this.lastID,
+        totalPrice: totalPrice // Calculated server-side
+      });
+    });
+  });
+});
+
+// SECURE: Proper authentication and authorization
+app.get('/api/users/:id', (req, res) => {
+  // SECURE: Verify authentication
+  const sessionId = req.headers['x-session-id'];
+  if (!sessionId || !sessions[sessionId]) {
+    return res.status(401).json({ error: 'Authentication required' });
+  }
+  
+  const currentUser = sessions[sessionId];
+  const targetUserId = req.params.id;
+  
+  // SECURE: Authorization check
+  if (currentUser.userId != targetUserId && currentUser.role !== 'admin') {
+    return res.status(403).json({ error: 'Access denied' });
+  }
+  
+  // SECURE: Return only necessary data
+  const sql = `SELECT id, username, email, role FROM users WHERE id = ?`;
+  
+  db.get(sql, [targetUserId], (err, user) => {
+    if (err) {
+      return res.status(500).json({ error: 'Database error' });
+    }
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json(user); // Only authorized data
+  });
+});</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Practice Exercise -->
+    <section class="practice-exercise">
+      <h2><i class="fas fa-graduation-cap"></i> Practice Exercise</h2>
+      
+      <div class="exercise-card">
+        <h3>Challenge: Exploit Business Logic Flaws</h3>
+        <p>Your mission is to exploit the business logic flaws in the order creation system. Try different parameter manipulations to bypass price validation and create orders with manipulated prices.</p>
+        
+        <div class="exercise-hints">
+          <h4>Hints:</h4>
+          <ul>
+            <li>Try setting the total price to a very low value</li>
+            <li>Experiment with negative quantities</li>
+            <li>Attempt to access other users' accounts</li>
+            <li>Look for race conditions by submitting multiple requests</li>
+          </ul>
+        </div>
+        
+        <div class="exercise-form">
+          <form id="exerciseForm">
+            <label for="exerciseProductId">Product ID:</label>
+            <input type="number" id="exerciseProductId" value="1" min="1" max="10" required>
+            
+            <label for="exerciseQuantity">Quantity:</label>
+            <input type="number" id="exerciseQuantity" value="1" required>
+            
+            <label for="exerciseUserId">User ID:</label>
+            <input type="number" id="exerciseUserId" value="2" min="1" max="10" required>
+            
+            <label for="exercisePrice">Total Price (USD):</label>
+            <input type="number" id="exercisePrice" value="999.99" step="0.01" required>
+            
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-rocket"></i> Submit Attack
+            </button>
+          </form>
+          <div id="exerciseResult" class="result-area"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progress Tracking -->
+    <section class="progress-tracking">
+      <h2><i class="fas fa-chart-line"></i> Your Progress</h2>
+      
+      <div class="progress-card">
+        <div class="progress-item">
+          <span>Client-Side Security</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="clientSideProgress" style="width: 0%"></div>
+          </div>
+        </div>
+        
+        <div class="progress-item">
+          <span>Business Logic Flaws</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="businessLogicProgress" style="width: 0%"></div>
+          </div>
+        </div>
+        
+        <div class="progress-item">
+          <span>Missing Controls</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="missingControlsProgress" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2024 OWASP Top 10 Learning Platform. For educational purposes only.</p>
+      <p><strong>Warning:</strong> This platform contains intentionally vulnerable code. Do not deploy in production environments.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>

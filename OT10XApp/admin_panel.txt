@@ -1,0 +1,22 @@
+=== HIDDEN ADMIN PANEL ===
+CONGRATULATIONS! You found the hidden admin panel!
+
+This file was hidden in the root directory and can only be accessed
+through directory traversal techniques.
+
+ADMIN CREDENTIALS:
+Username: admin
+Password: super_secret_admin_password_2024
+
+ADMIN ENDPOINTS:
+- /api/admin/users (List all users)
+- /api/admin/system (System information)
+- /api/admin/logs (Access logs)
+- /api/admin/config (Configuration)
+
+SECURITY NOTE:
+In a real application, this file should never be accessible
+through directory traversal. Always implement proper path validation
+and access controls.
+
+You have successfully demonstrated a directory traversal vulnerability! 

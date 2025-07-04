@@ -3,26 +3,395 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Identification and Authentication Failures</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>A07:2021 - Identification and Authentication Failures | OWASP Top 10 Learning</title>
+  <link rel="stylesheet" href="../../../styles/styles.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <h1>Identification and Authentication Failures</h1>
-  <button onclick="window.location.href='/'">Back to Home</button>
-  <p>This page demonstrates weak authentication mechanisms by using insecure, plaintext credential checks.</p>
-  
-  <form id="loginForm">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
-    <br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-    <br>
-    <button type="submit">Login</button>
-  </form>
-  
-  <pre id="response"></pre>
-  
-  <script src="./script.js"></script>
+  <header class="header">
+    <div class="container">
+      <h1><i class="fas fa-user-shield"></i> A07:2021 - Identification and Authentication Failures</h1>
+      <p class="subtitle">Learn about weak authentication mechanisms and how to exploit them</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <nav class="nav-back">
+      <a href="../../../index.html">
+        <i class="fas fa-arrow-left"></i> Back to OWASP Top 10
+      </a>
+    </nav>
+
+    <!-- Learning Overview -->
+    <section class="learning-overview">
+      <div class="overview-card">
+        <h2><i class="fas fa-info-circle"></i> What are Identification and Authentication Failures?</h2>
+        <p>Identification and authentication failures occur when applications incorrectly implement authentication mechanisms, allowing attackers to assume users' identities. This includes weak password policies, session management flaws, and insecure authentication implementations.</p>
+        
+        <div class="key-points">
+          <h3>Key Concepts:</h3>
+          <ul>
+            <li><strong>Weak Passwords:</strong> Easily guessable or common passwords</li>
+            <li><strong>Session Management:</strong> Insecure session handling and token management</li>
+            <li><strong>Brute Force Attacks:</strong> Automated password guessing attempts</li>
+            <li><strong>Credential Stuffing:</strong> Using leaked credentials from other breaches</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Attack Scenarios -->
+    <section class="attack-scenarios">
+      <h2><i class="fas fa-bug"></i> Attack Scenarios</h2>
+      
+      <div class="scenario-grid">
+        <!-- Scenario 1: Weak Password Policy -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-key"></i> Scenario 1: Weak Password Policy</h3>
+            <span class="difficulty beginner">Beginner</span>
+          </div>
+          <p>Exploit weak password policies and common password patterns to gain unauthorized access.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Component:</h4>
+            <code>Weak password validation and common password acceptance</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Identify weak password requirements</li>
+              <li>Use common password lists</li>
+              <li>Attempt brute force attacks</li>
+              <li>Exploit predictable password patterns</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <form id="weakPasswordForm">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="admin" value="admin">
+                <br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter password to test">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-unlock"></i> Test Login
+                </button>
+              </form>
+              
+              <div class="password-examples">
+                <h5>Common Weak Passwords to Try:</h5>
+                <div class="example-buttons">
+                  <button type="button" class="btn btn-sm btn-secondary" onclick="setPassword('password')">
+                    password
+                  </button>
+                  <button type="button" class="btn btn-sm btn-secondary" onclick="setPassword('123456')">
+                    123456
+                  </button>
+                  <button type="button" class="btn btn-sm btn-secondary" onclick="setPassword('admin')">
+                    admin
+                  </button>
+                  <button type="button" class="btn btn-sm btn-secondary" onclick="setPassword('qwerty')">
+                    qwerty
+                  </button>
+                  <button type="button" class="btn btn-sm btn-secondary" onclick="setPassword('letmein')">
+                    letmein
+                  </button>
+                </div>
+              </div>
+              
+              <div id="weakPasswordResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario 2: Session Management Flaws -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-id-card"></i> Scenario 2: Session Management Flaws</h3>
+            <span class="difficulty intermediate">Intermediate</span>
+          </div>
+          <p>Exploit insecure session management including predictable session tokens and session fixation.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Component:</h4>
+            <code>Predictable session tokens and insecure session handling</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Analyze session token patterns</li>
+              <li>Predict or brute force session IDs</li>
+              <li>Exploit session fixation vulnerabilities</li>
+              <li>Hijack active user sessions</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <button id="generateSessionBtn" class="btn btn-primary">
+                <i class="fas fa-random"></i> Generate Session Token
+              </button>
+              <button id="predictSessionBtn" class="btn btn-warning">
+                <i class="fas fa-magic"></i> Predict Next Token
+              </button>
+              <button id="bruteForceBtn" class="btn btn-danger">
+                <i class="fas fa-hammer"></i> Brute Force Session
+              </button>
+              <div id="sessionResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario 3: Credential Stuffing -->
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <h3><i class="fas fa-database"></i> Scenario 3: Credential Stuffing</h3>
+            <span class="difficulty advanced">Advanced</span>
+          </div>
+          <p>Use leaked credentials from data breaches to gain unauthorized access to accounts.</p>
+          
+          <div class="scenario-content">
+            <h4>Vulnerable Component:</strong></h4>
+            <code>Reused passwords and lack of breach monitoring</code>
+            
+            <h4>Attack Steps:</h4>
+            <ol>
+              <li>Obtain leaked credential databases</li>
+              <li>Test credentials against target application</li>
+              <li>Automate login attempts</li>
+              <li>Exploit successful credential matches</li>
+            </ol>
+            
+            <div class="interactive-demo">
+              <h4>Interactive Demo:</h4>
+              <button id="loadBreachDataBtn" class="btn btn-primary">
+                <i class="fas fa-download"></i> Load Breach Data
+              </button>
+              <button id="startStuffingBtn" class="btn btn-danger">
+                <i class="fas fa-rocket"></i> Start Credential Stuffing
+              </button>
+              <div id="stuffingResult" class="result-area"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prevention Strategies -->
+    <section class="prevention">
+      <h2><i class="fas fa-shield-alt"></i> Prevention Strategies</h2>
+      
+      <div class="prevention-grid">
+        <div class="prevention-card">
+          <h3><i class="fas fa-key"></i> Strong Authentication</h3>
+          <ul>
+            <li>Implement strong password policies</li>
+            <li>Use multi-factor authentication (MFA)</li>
+            <li>Enforce password complexity requirements</li>
+            <li>Implement account lockout mechanisms</li>
+          </ul>
+        </div>
+        
+        <div class="prevention-card">
+          <h3><i class="fas fa-id-card"></i> Session Management</h3>
+          <ul>
+            <li>Use secure session tokens</li>
+            <li>Implement proper session timeout</li>
+            <li>Secure session storage</li>
+            <li>Implement session invalidation</li>
+          </ul>
+        </div>
+        
+        <div class="prevention-card">
+          <h3><i class="fas fa-shield-alt"></i> Security Monitoring</h3>
+          <ul>
+            <li>Monitor for suspicious login attempts</li>
+            <li>Implement breach monitoring</li>
+            <li>Use CAPTCHA for repeated failures</li>
+            <li>Regular security audits</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Code Examples -->
+    <section class="code-examples">
+      <h2><i class="fas fa-code"></i> Code Examples</h2>
+      
+      <div class="code-tabs">
+        <div class="tab-buttons">
+          <button class="tab-btn active" data-tab="vulnerable">Vulnerable Code</button>
+          <button class="tab-btn" data-tab="secure">Secure Code</button>
+        </div>
+        
+        <div class="tab-content">
+          <div id="vulnerable" class="tab-pane active">
+            <h3>Vulnerable Implementation</h3>
+            <pre><code>// WARNING: Weak password validation
+function validatePassword(password) {
+    return password.length >= 4; // Too weak!
+}
+
+// Insecure session token generation
+function generateSessionToken() {
+    return Math.random().toString(36); // Predictable!
+}
+
+// Plain text password storage
+function storeUser(username, password) {
+    users[username] = password; // Never store plain text!
+}
+
+// No rate limiting on login attempts
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+    if (users[username] === password) {
+        res.json({ success: true });
+    }
+});
+
+// Weak session management
+app.get('/profile', (req, res) => {
+    const sessionId = req.cookies.sessionId;
+    const user = sessions[sessionId]; // No validation!
+    res.json(user);
+}</code></pre>
+          </div>
+          
+          <div id="secure" class="tab-pane">
+            <h3>Secure Implementation</h3>
+            <pre><code>// Strong password validation
+function validatePassword(password) {
+    const minLength = 12;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*]/.test(password);
+    
+    return password.length >= minLength && 
+           hasUpperCase && hasLowerCase && 
+           hasNumbers && hasSpecialChar;
+}
+
+// Secure session token generation
+function generateSessionToken() {
+    return crypto.randomBytes(32).toString('hex');
+}
+
+// Secure password hashing
+async function storeUser(username, password) {
+    const saltRounds = 12;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    users[username] = hashedPassword;
+}
+
+// Rate limiting and secure authentication
+const rateLimit = require('express-rate-limit');
+const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 5 // limit each IP to 5 requests per windowMs
+});
+
+app.post('/login', loginLimiter, async (req, res) => {
+    const { username, password } = req.body;
+    const user = await getUser(username);
+    
+    if (user && await bcrypt.compare(password, user.password)) {
+        const sessionToken = generateSessionToken();
+        await storeSession(sessionToken, user.id);
+        res.cookie('sessionId', sessionToken, { 
+            httpOnly: true, 
+            secure: true, 
+            sameSite: 'strict' 
+        });
+        res.json({ success: true });
+    } else {
+        res.status(401).json({ error: 'Invalid credentials' });
+    }
+});
+
+// Secure session validation
+app.get('/profile', async (req, res) => {
+    const sessionToken = req.cookies.sessionId;
+    const userId = await validateSession(sessionToken);
+    
+    if (!userId) {
+        return res.status(401).json({ error: 'Invalid session' });
+    }
+    
+    const user = await getUserById(userId);
+    res.json(user);
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Practice Exercise -->
+    <section class="practice-exercise">
+      <h2><i class="fas fa-graduation-cap"></i> Practice Exercise</h2>
+      
+      <div class="exercise-card">
+        <h3>Challenge: Identify Authentication Vulnerabilities</h3>
+        <p>Your mission is to identify and exploit authentication vulnerabilities in a simulated application. Use the tools and techniques you've learned to find weak authentication mechanisms.</p>
+        
+        <div class="exercise-hints">
+          <h4>Tasks:</h4>
+          <ul>
+            <li>Test weak password policies</li>
+            <li>Analyze session token patterns</li>
+            <li>Attempt credential stuffing attacks</li>
+            <li>Identify session management flaws</li>
+          </ul>
+        </div>
+        
+        <div class="exercise-form">
+          <form id="exerciseForm">
+            <label for="exerciseInput">What is the most common weak password?</label>
+            <input type="text" id="exerciseInput" placeholder="e.g., password123">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-rocket"></i> Submit Answer
+            </button>
+          </form>
+          <div id="exerciseResult" class="result-area"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progress Tracking -->
+    <section class="progress-tracking">
+      <h2><i class="fas fa-chart-line"></i> Your Progress</h2>
+      
+      <div class="progress-card">
+        <div class="progress-item">
+          <span>Weak Password Exploitation</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="passwordProgress" style="width: 0%"></div>
+          </div>
+        </div>
+        
+        <div class="progress-item">
+          <span>Session Management</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="sessionProgress" style="width: 0%"></div>
+          </div>
+        </div>
+        
+        <div class="progress-item">
+          <span>Credential Stuffing</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="stuffingProgress" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2024 OWASP Top 10 Learning Platform. For educational purposes only.</p>
+      <p><strong>Warning:</strong> This platform contains intentionally vulnerable code. Do not deploy in production environments.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
